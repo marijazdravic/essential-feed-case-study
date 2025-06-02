@@ -16,6 +16,7 @@ So I can always enjoy the newest images of my friends
 
 #### Scenarios (Acceptance criteria)
 
+```
 Given the customer has connectivity
  When the customer requests to see their feed
  Then the app should display the latest feed from remote
@@ -34,21 +35,21 @@ So I can always enjoy images of my friends
 
 ```
 Given the customer doesn't have connectivity
-And there’s a cached version of the feed
-And the cache is less than seven days old
-When the customer requests to see the feed
-Then the app should display the latest feed saved
+  And there’s a cached version of the feed
+  And the cache is less than seven days old
+ When the customer requests to see the feed
+ Then the app should display the latest feed saved
 
 Given the customer doesn't have connectivity
-And there’s a cached version of the feed
-And the cache is seven days old or more
-When the customer requests to see the feed
-Then the app should display an error message
+  And there’s a cached version of the feed
+  And the cache is seven days old or more
+ When the customer requests to see the feed
+ Then the app should display an error message
 
 Given the customer doesn't have connectivity
-And the cache is empty
-When the customer requests to see the feed
-Then the app should display an error message
+  And the cache is empty
+ When the customer requests to see the feed
+ Then the app should display an error message
 ```
 
 ## Use Cases
@@ -71,10 +72,8 @@ Then the app should display an error message
 #### No connectivity – error course (sad path):
 1. System delivers connectivity error.
 
-### Load Feed From Cache Use Case
 
-#### Data:
-- Max age (7 days)
+### Load Feed From Cache Use Case
 
 #### Primary course:
 1. Execute "Load Feed Items" command with above data.
@@ -83,7 +82,7 @@ Then the app should display an error message
 4. System creates feed items from cached data.
 5. System delivers feed items.
 
-### Error course (sad path)
+#### Error course (sad path):
 1. System delivers error.
 
 #### Expired cache course (sad path): 
@@ -100,27 +99,27 @@ Then the app should display an error message
 - Feed items
 
 #### Primary course (happy path):
-1. System deletes old cache data.
-2. Execute "Save Feed Items" command with above data.
+1. Execute "Save Feed Items" command with above data.
+2. System deletes old cache data.
 3. System encodes feed items.
 4. System timestamps the new cache.
-5. System saves the cache with new data.
+5. System saves new cache data.
 6. System delivers success message.
 
-### Deleting error course(sad path):
+#### Deleting error course (sad path):
 1. System delivers error.
 
-### Saving error course (sad path):
+#### Saving error course (sad path):
 1. System delivers error.
 
 
 ## Flowchart
 
-![Feed Loading Feature](feed_flowchart.png)
+![](feed_flowchart.png)
 
 ## Architecture
 
-![Feed Loading Feature](feed_architecture.png)
+![](feed_architecture.png)
 
 ## Model Specs
 
