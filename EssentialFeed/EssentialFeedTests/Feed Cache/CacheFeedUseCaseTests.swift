@@ -106,7 +106,7 @@ class CacheFeedUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed, .insert(items, timestamp)])
     }
     
-    func test_save_FailsOnDelitionError() {
+    func test_save_FailsOnDeletionError() {
         let items = [uniqueItem(), uniqueItem()]
         let (sut, store) = makeSUT()
         let deletionError = anyNSError()
