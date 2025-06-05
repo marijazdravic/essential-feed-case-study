@@ -100,7 +100,7 @@ class CacheFeedUseCaseTests: XCTestCase {
             currentDate: Date.init
         )
         
-        var receivedResults = [Error?]()
+        var receivedResults = [LocalFeedLoader.SaveResult]()
         sut?.save([uniqueItem()]) { receivedResults.append($0) }
         
         store.completeDeletionSuccessfully()
