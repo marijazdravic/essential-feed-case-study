@@ -15,7 +15,7 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         
         XCTAssertEqual(store.receivedMessages, [])
     }
- 
+    
     func test_load_requestsCacheRetrieval() {
         let (sut, store) = makeSUT()
         
@@ -27,7 +27,7 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     func test_load_failsOnRetreivalError() {
         let (sut, store) = makeSUT()
         let retrievalError = anyNSError()
-       
+        
         expect(sut, toCompleteWith: .failure(retrievalError), when: {
             store.completeRetrieval(with: retrievalError)
         })
@@ -35,9 +35,25 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     
     func test_load_deliversNoImagesOnEmptyCache() {
         let (sut, store) = makeSUT()
-       
+        
         expect(sut, toCompleteWith: (.success([])), when: {
             store.completeRetrievalWithEmptyCache()
+        })
+    }
+    
+    func test_load_deliversCachedImagesOnLessThanSevenDaysOldCache() {
+        let feed = uniqueImageFeed()
+        let fixedCurrentDate = Date()
+        let lessThanSevenDaysOldTime = fixedCurrentDate.adding(days: -7).adding(seconds: 1)
+        let(sut, store) = makeSUT() { fixedCurrentDate }
+        
+        
+        expect(sut, toCompleteWith: .success(feed.models), when: {
+            store
+                .completeRetrieval(
+                    with: feed.local,
+                    timestamp: lessThanSevenDaysOldTime
+                )
         })
     }
     
@@ -76,7 +92,37 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
+    private func uniqueImage() -> FeedImage {
+        return FeedImage(
+            id: UUID(),
+            description: "any",
+            location: "any",
+            url: anyURL()
+        )
+    }
+    
+    
+    private func uniqueImageFeed() -> (models: [FeedImage], local: [LocalFeedImage]) {
+        let models = [uniqueImage(), uniqueImage()]
+        let local = models.map { LocalFeedImage(id: $0.id, description: $0.description, location: $0.location, url: $0.url) }
+        return (models, local)
+    }
+    
+    private func anyURL() -> URL {
+        return URL(string: "http://any-url.com")!
+    }
+    
     private func anyNSError() -> NSError  {
         return NSError(domain: "any error", code: 0)
+    }
+}
+
+private extension Date {
+    func adding(days: Int) -> Date {
+        return Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
+    }
+    
+    func adding(seconds: TimeInterval) -> Date {
+        return self + seconds
     }
 }
