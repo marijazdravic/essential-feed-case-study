@@ -9,34 +9,6 @@ import Foundation
 import XCTest
 import EssentialFeed
 
-protocol FeedStore {
-    typealias DeleteCompletion = (Error?) -> Void
-    typealias InsertCompletion = (Error?) -> Void
-    
-    func deleteCashedFeed(completion: @escaping DeleteCompletion)
-    func insertItems(_ items: [FeedItem], timestamp: Date, completion: @escaping InsertCompletion)
-}
-
-class LocalFeedLoader {
-    private let store: FeedStore
-    private let currentDate: () -> Date
-    
-    init(store: FeedStore, currentDate: @escaping () -> Date) {
-        self.store = store
-        self.currentDate = currentDate
-    }
-    
-    func save(_ items: [FeedItem], completion: @escaping (Error?) -> Void) {
-        store.deleteCashedFeed { [unowned self] error in
-            if error == nil {
-                self.store
-                    .insertItems(items, timestamp: self.currentDate(), completion: completion)
-            } else {
-                completion(error)
-            }
-        }
-    }
-}
 
 class CacheFeedUseCaseTests: XCTestCase {
     
@@ -103,6 +75,39 @@ class CacheFeedUseCaseTests: XCTestCase {
             store.completeDeletionSuccessfully()
             store.completeInsertionSuccessfully()
         })
+    }
+    
+    func test_save_doesNotDeliverDeletionErrorAfterSUThasBeenDealocated() {
+        let store = FeedStoreSpy()
+        var sut: LocalFeedLoader? = LocalFeedLoader(
+            store: store,
+            currentDate: Date.init
+        )
+        
+        var receivedResults = [Error?]()
+        sut?.save([uniqueItem()]) { receivedResults.append($0) }
+        
+        sut = nil
+        store.completeDeletion(with: anyNSError())
+        
+        XCTAssertTrue(receivedResults.isEmpty)
+    }
+    
+    func test_save_doesNotDeliverInsertionErrorAfterSUThasBeenDealocated() {
+        let store = FeedStoreSpy()
+        var sut: LocalFeedLoader? = LocalFeedLoader(
+            store: store,
+            currentDate: Date.init
+        )
+        
+        var receivedResults = [LocalFeedLoader.SaveResult]()
+        sut?.save([uniqueItem()]) { receivedResults.append($0) }
+        
+        store.completeDeletionSuccessfully()
+        sut = nil
+        store.completeInsertion(with: anyNSError())
+        
+        XCTAssertTrue(receivedResults.isEmpty)
     }
     
     // MARK: - Helpers
