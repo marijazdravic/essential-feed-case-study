@@ -9,7 +9,7 @@ import XCTest
 import EssentialFeed
 
 class CodableFeedStore {
-    func retrieve(completion: @escaping FeedStore.RetreivalCompletions) {
+    func retrieve(completion: @escaping FeedStore.RetrievalCompletion) {
         completion(.empty)
     }
 }
