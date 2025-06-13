@@ -135,51 +135,13 @@ class CacheFeedUseCaseTests: XCTestCase {
         XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
     }
     
-    private class FeedStoreSpy: FeedStore {
-        enum ReceivedMessage: Equatable {
-            case deleteCachedFeed
-            case insert([LocalFeedImage], Date)
-        }
-        
-        private(set) var receivedMessages = [ReceivedMessage]()
-        
-        private var deleteCompletions = [DeleteCompletion]()
-        private var insertionCompletions = [InsertCompletion]()
-        
-        func deleteCashedFeed(completion: @escaping DeleteCompletion) {
-            deleteCompletions.append(completion)
-            receivedMessages.append(.deleteCachedFeed)
-        }
-        
-        func completeDeletion(with error: Error, at index: Int = 0) {
-            deleteCompletions[index](error)
-        }
-        
-        func completeDeletionSuccessfully(at index: Int = 0) {
-            deleteCompletions[index](nil)
-        }
-        
-        func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertCompletion) {
-            insertionCompletions.append(completion)
-            receivedMessages.append(.insert(feed, timestamp))
-        }
-        
-        func completeInsertion(with error: Error?, at index: Int = 0) {
-            insertionCompletions[index](error)
-        }
-        
-        func completeInsertionSuccessfully(at index: Int = 0) {
-            insertionCompletions[index](nil)
-        }
-    }
-    
     private func uniqueImage() -> FeedImage {
         return FeedImage(id: UUID(), description: "any", location: "any", url: anyURL())
     }
     
     private func uniqueImageFeed() -> (models: [FeedImage], local: [LocalFeedImage]) {
         let models = [uniqueImage(), uniqueImage()]
-        let local = models.map { LocalFeedImage(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.url) }
+        let local = models.map { LocalFeedImage(id: $0.id, description: $0.description, location: $0.location, url: $0.url) }
         return (models, local)
     }
     
