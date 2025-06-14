@@ -37,9 +37,8 @@ class CodableFeedStoreTests: XCTestCase {
         let feed = uniqueImageFeed().local
         let timestamp = Date()
         
-        let insertionError = insert((feed, timestamp), to: sut)
-        XCTAssertNil(insertionError, "Expected feed to be inserted successfully")
-        
+        insert((feed, timestamp), to: sut)
+    
         expect(sut, toRetrieve: .found(feed: feed, timestamp: timestamp))
     }
     
@@ -48,8 +47,7 @@ class CodableFeedStoreTests: XCTestCase {
         let feed = uniqueImageFeed().local
         let timestamp = Date()
      
-        let insertionError = insert((feed, timestamp), to: sut)
-        XCTAssertNil(insertionError, "Expected feed to be inserted successfully")
+        insert((feed, timestamp), to: sut)
         
         expect(sut, toRetrieveTwice: .found(feed: feed, timestamp: timestamp))
     }
@@ -76,8 +74,7 @@ class CodableFeedStoreTests: XCTestCase {
     func test_insert_overridesPreviouslyInsertedCacheValues() {
         let sut = makeSUT()
         
-        let firstInsertionError = insert((feed: uniqueImageFeed().local, timestamp: Date()), to: sut)
-        XCTAssertNil(firstInsertionError, "Expected to insert cache successfully")
+        insert((feed: uniqueImageFeed().local, timestamp: Date()), to: sut)
         
         let latestFeed = uniqueImageFeed().local
         let latestTimestamp = Date()
@@ -110,8 +107,7 @@ class CodableFeedStoreTests: XCTestCase {
     
     func test_delete_emptiesPreviouslyInsertedCache() {
         let sut = makeSUT()
-        let insertionError = insert((uniqueImageFeed().local, Date()), to: sut)
-        XCTAssertNil(insertionError, "Expected to insert cache successfully")
+        insert((uniqueImageFeed().local, Date()), to: sut)
         
         let deletionError = deleteCache(from: sut)
         
@@ -137,7 +133,7 @@ class CodableFeedStoreTests: XCTestCase {
         return sut
     }
     
-    
+    @discardableResult
     private func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date), to sut: FeedStore) -> Error? {
         let exp = expectation(description: "Wait for cache insertion")
         
