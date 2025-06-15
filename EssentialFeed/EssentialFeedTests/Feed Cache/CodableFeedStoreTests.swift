@@ -175,7 +175,7 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
         expect(sut, toRetrieve: .empty)
     }
     
-    func test_store_sideEffects_runSerially() {
+    func test_storeSideEffects_runSerially() {
         let sut = makeSUT()
         var completeOperationsInOrder =  [XCTestExpectation]()
         
