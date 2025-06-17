@@ -26,7 +26,9 @@ class ManagedFeedImage: NSManagedObject {
             return managed
         })
     }
-    
+}
+
+extension ManagedFeedImage {
     var local: LocalFeedImage {
         return LocalFeedImage(id: id, description: imageDescription, location: location, url: url)
     }
