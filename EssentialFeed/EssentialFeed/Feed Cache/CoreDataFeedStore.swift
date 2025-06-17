@@ -42,9 +42,7 @@ public final class CoreDataFeedStore: FeedStore {
         timestamp: Date,
         completion: @escaping InsertionCompletion
     ) {
-        let context = self.context
-        
-        context.perform {
+        perform { context in
             do {
                 let managedCache = try ManagedCache.newUniqueInstance(in: context)
                 managedCache.timestamp = timestamp
@@ -57,19 +55,24 @@ public final class CoreDataFeedStore: FeedStore {
             }
         }
     }
-        
-        public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-            let context = self.context
-            context.perform {
-                do {
-                    try ManagedCache.find(in: context).map(context.delete).map(context.save)
-                    completion(nil)
-                } catch {
-                    completion(error)
-                }
+    
+    public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
+        let context = self.context
+        context.perform {
+            do {
+                try ManagedCache.find(in: context).map(context.delete).map(context.save)
+                completion(nil)
+            } catch {
+                completion(error)
             }
         }
     }
+    
+    private func perform(_ action: @escaping (NSManagedObjectContext) -> Void) {
+        let context = self.context
+        context.perform { action(context) }
+    }
+}
 
 @objc(ManagedCache)
 private class ManagedCache: NSManagedObject {
@@ -122,7 +125,7 @@ private extension NSPersistentContainer {
         case modelNotFound
         case failedToLoadPersistentStores(Swift.Error)
     }
-
+    
     static func load(modelName name: String, url: URL, in bundle: Bundle) throws -> NSPersistentContainer{
         guard let model = NSManagedObjectModel.with(name: name, in: bundle) else {
             throw LoadingError.modelNotFound
