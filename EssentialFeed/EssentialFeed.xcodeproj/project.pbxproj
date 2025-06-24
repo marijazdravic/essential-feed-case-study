@@ -221,6 +221,14 @@
 			path = "Feed Cache";
 			sourceTree = "<group>";
 		};
+		E341A64E2E0B256E007C6760 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				E3E2FEF02E01DC020084C3FC /* CoreDataHelpers.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		E3648E932DEED76F00E611D0 /* Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,9 +284,9 @@
 		E3E2FEEE2E01DB210084C3FC /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				E341A64E2E0B256E007C6760 /* Helpers */,
 				E30B073F2E004FC000B16574 /* FeedStore.xcdatamodeld */,
 				E3A2C0C42DFF66E3009795DB /* CoreDataFeedStore.swift */,
-				E3E2FEF02E01DC020084C3FC /* CoreDataHelpers.swift */,
 				E3E2FEF22E01DCD20084C3FC /* ManagedCache.swift */,
 				E3E2FEF42E01DD070084C3FC /* ManagedFeedImage.swift */,
 			);
