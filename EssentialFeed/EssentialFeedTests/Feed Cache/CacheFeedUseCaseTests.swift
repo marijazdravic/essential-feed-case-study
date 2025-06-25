@@ -82,7 +82,7 @@ class CacheFeedUseCaseTests: XCTestCase {
             currentDate: Date.init
         )
         
-        var receivedResults = [Error?]()
+        var receivedResults = [LocalFeedLoader.SaveResult]()
         sut?.save([uniqueImage()]) { receivedResults.append($0) }
         
         sut = nil
@@ -124,8 +124,8 @@ class CacheFeedUseCaseTests: XCTestCase {
         let exp = expectation(description: "Wait for save completion")
         
         var receivedError: Error?
-        sut.save([uniqueImage()]) { error in
-            receivedError = error
+        sut.save([uniqueImage()]) { result in
+            if case let .failure(error) = result { receivedError = error }
             exp.fulfill()
         }
         
