@@ -10,15 +10,15 @@ import EssentialFeed
 import UIKit
 
 final class FeedViewController: UIViewController {
-    private var loader: FeedViewControllerTests.LoaderSpy?
+    private var loader: FeedLoader?
     
-    convenience init(loader: FeedViewControllerTests.LoaderSpy) {
+    convenience init(loader: FeedLoader) {
         self.init()
         self.loader = loader
     }
     
     override func viewDidLoad() {
-        loader?.load()
+        loader?.load { _ in }
     }
 }
 
@@ -42,10 +42,10 @@ class FeedViewControllerTests: XCTestCase {
     
     // MARK: -Helpers
     
-    class LoaderSpy {
+    class LoaderSpy: FeedLoader {
         var loadCount = 0
         
-        func load() {
+        func load(completion: @escaping (FeedLoader.Result) -> Void) {
             loadCount += 1
         }
     }
