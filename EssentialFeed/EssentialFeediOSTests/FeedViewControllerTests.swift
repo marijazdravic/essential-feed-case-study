@@ -90,6 +90,7 @@ class FeedViewControllerTests: XCTestCase {
     func test_refreshControlIsNotRefreshingBeforeViewAppears() {
         let (sut, _) = makeSUT()
         sut.replaceRefreshControlWithFakeForiOS17Support()
+        
         sut.loadViewIfNeeded()
         
         XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
@@ -99,8 +100,8 @@ class FeedViewControllerTests: XCTestCase {
         let (sut, _) = makeSUT()
         sut.replaceRefreshControlWithFakeForiOS17Support()
         
-        sut.beginAppearanceTransition(true, animated: false)
-        sut.endAppearanceTransition()
+        simulateViewAppearance(sut: sut)
+        
         XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
     }
     
@@ -109,13 +110,11 @@ class FeedViewControllerTests: XCTestCase {
         sut.replaceRefreshControlWithFakeForiOS17Support()
         sut.loadViewIfNeeded()
         
-        sut.beginAppearanceTransition(true, animated: false)
-        sut.endAppearanceTransition()
+        simulateViewAppearance(sut: sut)
         
         sut.refreshControl?.endRefreshing()
         
-        sut.beginAppearanceTransition(true, animated: false)
-        sut.endAppearanceTransition()
+        simulateViewAppearance(sut: sut)
         
         XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
     }
@@ -129,6 +128,11 @@ class FeedViewControllerTests: XCTestCase {
         trackForMemoryLeaks(sut)
         
         return(sut, loader)
+    }
+    
+    private func simulateViewAppearance(sut: FeedViewController) {
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
     }
     
     class LoaderSpy: FeedLoader {
