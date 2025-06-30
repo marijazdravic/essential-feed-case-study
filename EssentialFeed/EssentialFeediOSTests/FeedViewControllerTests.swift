@@ -104,6 +104,22 @@ class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
     }
     
+    func test_viewIsAppearing_doesNotShowLoadingIndicatorOnEveryAppearance() {
+        let (sut, _) = makeSUT()
+        sut.replaceRefreshControlWithFakeForiOS17Support()
+        sut.loadViewIfNeeded()
+        
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
+        
+        sut.refreshControl?.endRefreshing()
+        
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
+        
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+    }
+    
     // MARK: -Helpers
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: FeedViewController, loader: LoaderSpy) {
