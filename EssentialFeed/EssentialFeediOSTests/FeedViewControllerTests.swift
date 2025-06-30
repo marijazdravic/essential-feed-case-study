@@ -87,6 +87,14 @@ class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCount, 3)
     }
     
+    func test_refreshControlIsNotRefreshingBeforeViewAppears() {
+        let (sut, _) = makeSUT()
+        sut.replaceRefreshControlWithFakeForiOS17Support()
+        sut.loadViewIfNeeded()
+        
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+    }
+    
     func test_viewDidLoad_showsLoadingIndicatorOnViewDidLoad() {
         let (sut, _) = makeSUT()
         sut.replaceRefreshControlWithFakeForiOS17Support()
