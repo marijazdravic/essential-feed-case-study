@@ -64,33 +64,23 @@ extension FeedViewController {
 }
 
 class FeedViewControllerTests: XCTestCase {
-    
-    func test_init_doesNotLoadFeed() {
-        let (_, loader) = makeSUT()
-        
+  
+    func test_loadFeedActions_requestsFeedfromLoader() {
+        let (sut, loader) = makeSUT()
         XCTAssertEqual(loader.loadCount, 0)
-    }
-    
-    func test_viewDidLoad_loadsFeed() {
-        let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
-        
         XCTAssertEqual(loader.loadCount, 1)
-    }
-    
-    func test_userInitiatedFeedReload_loadsFeed() {
-        let (sut, loader) = makeSUT()
-        sut.loadViewIfNeeded()
         
+        sut.loadViewIfNeeded()
         sut.simulateUserInitiatedFeedReload()
         XCTAssertEqual(loader.loadCount, 2)
         
-        sut.refreshControl?.simulatePullToRefresh()
+        sut.simulateUserInitiatedFeedReload()
         XCTAssertEqual(loader.loadCount, 3)
     }
     
-    func test_refreshControlIsNotRefreshingBeforeViewAppears() {
+    func test_refreshControlIsNotRefreshingAfterViewDidLoad() {
         let (sut, _) = makeSUT()
         sut.replaceRefreshControlWithFakeForiOS17Support()
         
@@ -111,7 +101,6 @@ class FeedViewControllerTests: XCTestCase {
     func test_viewIsAppearing_doesNotShowLoadingIndicatorOnEveryAppearance() {
         let (sut, _) = makeSUT()
         sut.replaceRefreshControlWithFakeForiOS17Support()
-        sut.loadViewIfNeeded()
         
         simulateViewAppearance(sut: sut)
         
