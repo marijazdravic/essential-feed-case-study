@@ -37,6 +37,7 @@ final class FeedViewController: UITableViewController {
     }
     
     @objc private func load() {
+        refresh()
         loader?.load { [weak self] _ in
             self?.refreshControl?.endRefreshing()
         }
@@ -94,7 +95,6 @@ class FeedViewControllerTests: XCTestCase {
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading is completed")
         
         simulateViewAppearance(sut: sut)
-        sut.refreshControl?.beginRefreshing()
         sut.simulateUserInitiatedFeedReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiates a reload")
         
