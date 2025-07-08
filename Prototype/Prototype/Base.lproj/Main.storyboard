@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gas-X2-aDN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gas-X2-aDN">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -113,6 +113,7 @@ Location</string>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="descriptionLabel" destination="WnU-Rh-Aai" id="zCM-zd-FWg"/>
+                                    <outlet property="feedImageContainer" destination="2WS-xY-Y1K" id="Zr5-XS-KZE"/>
                                     <outlet property="feedImageView" destination="8in-GM-pbc" id="tls-12-DTR"/>
                                     <outlet property="locationContainer" destination="Jl8-zo-xh0" id="YGA-l6-P6M"/>
                                     <outlet property="locationLabel" destination="0n3-2n-vdA" id="jqZ-mD-B0f"/>
@@ -125,6 +126,12 @@ Location</string>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Feed" id="8Ag-7t-EgA"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="7RN-hI-kFy">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh" destination="tIV-MK-mRE" eventType="valueChanged" id="OEG-t1-Al2"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yL4-R0-D3X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -136,7 +143,7 @@ Location</string>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gas-X2-aDN" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vot-Lu-fZt">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

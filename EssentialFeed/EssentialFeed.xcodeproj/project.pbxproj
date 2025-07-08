@@ -10,6 +10,7 @@
 		080EDEFB21B6DA7E00813479 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; };
 		080EDF0C21B6DAE800813479 /* FeedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080EDF0B21B6DAE800813479 /* FeedImage.swift */; };
 		080EDF0E21B6DCB600813479 /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080EDF0D21B6DCB600813479 /* FeedLoader.swift */; };
+		E308D61B2E170F460095F25A /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; };
 		E30B07412E004FC000B16574 /* FeedStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E30B073F2E004FC000B16574 /* FeedStore.xcdatamodeld */; };
 		E325F7282DF0F48100B60EB5 /* LocalFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E325F7272DF0F48100B60EB5 /* LocalFeedLoader.swift */; };
 		E325F72A2DF1BA6500B60EB5 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E325F7292DF1BA6500B60EB5 /* FeedStore.swift */; };
@@ -33,6 +34,7 @@
 		E3CFC9AC2DF8A7DD0065BF5F /* LocalFeedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CFC9AB2DF8A7DD0065BF5F /* LocalFeedImage.swift */; };
 		E3CFC9AE2DF8BAD20065BF5F /* LoadFeedFromCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CFC9AD2DF8BAD20065BF5F /* LoadFeedFromCacheUseCaseTests.swift */; };
 		E3CFC9B12DF8BD560065BF5F /* FeedStoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CFC9B02DF8BD560065BF5F /* FeedStoreSpy.swift */; };
+		E3DC11CD2E10648C00775ED3 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; };
 		E3E1A6ED2E07128F00D1EEE8 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080EDEF121B6DA7E00813479 /* EssentialFeed.framework */; };
 		E3E1A6FE2E0716D200D1EEE8 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EDC2972DDF315E005299A9 /* XCTestCase+MemoryLeakTracking.swift */; };
 		E3E1A6FF2E07172B00D1EEE8 /* FeedCacheHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32AE11E2DFB75A3007A0AD9 /* FeedCacheHelpers.swift */; };
@@ -161,6 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E308D61B2E170F460095F25A /* EssentialFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,6 +171,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3DC11CD2E10648C00775ED3 /* EssentialFeed.framework in Frameworks */,
 				E38E7E6C2E0EF08000D2452E /* EssentialFeediOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -194,6 +198,7 @@
 				E3E1A6EA2E07128F00D1EEE8 /* EssentialFeedCacheIntegrationTests */,
 				E38E7E652E0EF08000D2452E /* EssentialFeediOS */,
 				E38E7E6F2E0EF08000D2452E /* EssentialFeediOSTests */,
+				E3DC11CC2E10648C00775ED3 /* Frameworks */,
 				080EDEF221B6DA7E00813479 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -304,6 +309,13 @@
 				E32AE11E2DFB75A3007A0AD9 /* FeedCacheHelpers.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		E3DC11CC2E10648C00775ED3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		E3E2FEED2E01DA7F0084C3FC /* Infrastructure */ = {
@@ -519,9 +531,11 @@
 					};
 					E38E7E632E0EF08000D2452E = {
 						CreatedOnToolsVersion = 16.2;
+						LastSwiftMigration = 1620;
 					};
 					E38E7E6A2E0EF08000D2452E = {
 						CreatedOnToolsVersion = 16.2;
+						LastSwiftMigration = 1620;
 					};
 					E3E1A6E82E07128F00D1EEE8 = {
 						CreatedOnToolsVersion = 16.2;
@@ -985,8 +999,9 @@
 		E38E7E732E0EF08000D2452E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1016,6 +1031,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1024,8 +1040,9 @@
 		E38E7E742E0EF08000D2452E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1064,8 +1081,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = L546GM2JGW;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1077,6 +1096,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1086,8 +1106,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = L546GM2JGW;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
