@@ -37,6 +37,12 @@ extension FeedViewController {
         return feedImageView(at: index) as? FeedImageCell
     }
     
+    func simulateViewAppearance() {
+        beginAppearanceTransition(true, animated: false)
+        endAppearanceTransition()
+    }
+    
+    
     func simulateFeedImageViewNotVisible(at row: Int) {
         let view = simulateFeedImageViewIsVisible(at: row)
         

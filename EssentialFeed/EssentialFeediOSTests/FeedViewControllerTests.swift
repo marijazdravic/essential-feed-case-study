@@ -16,7 +16,7 @@ class FeedViewControllerTests: XCTestCase {
         let (sut, loader) = makeSUT()
         XCTAssertEqual(loader.loadFeedCallCount, 0, "Expected no loading requests before view is loaded")
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected a loading request once view is loaded")
         
         sut.simulateUserInitiatedFeedReload()
@@ -30,17 +30,17 @@ class FeedViewControllerTests: XCTestCase {
         let (sut, loader) = makeSUT()
         sut.replaceRefreshControlWithFakeForiOS17Support()
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once view is loaded")
         
         sut.refreshControl?.endRefreshing()
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once view is loaded")
         
         loader.completeFeedLoading(at: 0)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading is completed successfully")
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         sut.simulateUserInitiatedFeedReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiates a reload")
         
@@ -55,7 +55,7 @@ class FeedViewControllerTests: XCTestCase {
         let image3 = makeImage(description: nil, location: nil)
         let (sut, loader) = makeSUT()
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         assertThat(sut, isRendering: [])
         
         loader.completeFeedLoading(with: [image0], at: 0)
@@ -70,7 +70,7 @@ class FeedViewControllerTests: XCTestCase {
         let image0 = makeImage()
         let (sut, loader) = makeSUT()
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         loader.completeFeedLoading(with: [image0], at: 0)
         assertThat(sut, isRendering: [image0])
         
@@ -84,7 +84,7 @@ class FeedViewControllerTests: XCTestCase {
         let image1 = makeImage(url: URL(string: "https://url-1.com")!)
         let (sut, loader) = makeSUT()
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         loader.completeFeedLoading(with: [image0, image1])
         
         XCTAssertEqual(loader.loadedImageURLs, [], "Expected no image URL requested until view becomes visible")
@@ -105,7 +105,7 @@ class FeedViewControllerTests: XCTestCase {
         let image1 = makeImage(url: URL(string: "https://url-1.com")!)
         let (sut, loader) = makeSUT()
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         loader.completeFeedLoading(with: [image0, image1])
         
         XCTAssertEqual(loader.canceledImageURLs, [], "Expected no image URL requested until view becomes visible")
@@ -128,7 +128,7 @@ class FeedViewControllerTests: XCTestCase {
     func test_feedImageViewLoadingIndicator_isVisibleWhileLoadingImage() {
         let (sut, loader) = makeSUT()
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         loader.completeFeedLoading(with: [makeImage(), makeImage()])
         
         let view0 = sut.simulateFeedImageViewIsVisible(at: 0)
@@ -148,7 +148,7 @@ class FeedViewControllerTests: XCTestCase {
     func test_feedImageView_rendersImageLoadedFromURL() {
         let (sut, loader) = makeSUT()
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         loader.completeFeedLoading(with: [makeImage(), makeImage()])
         
         let view0 = sut.simulateFeedImageViewIsVisible(at: 0)
@@ -170,7 +170,7 @@ class FeedViewControllerTests: XCTestCase {
     func test_feedImageViewRetryButton_isVisibleOnImageURLLoadError() {
         let (sut, loader) = makeSUT()
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         loader.completeFeedLoading(with: [makeImage(), makeImage()])
         
         let view0 = sut.simulateFeedImageViewIsVisible(at: 0)
@@ -191,7 +191,7 @@ class FeedViewControllerTests: XCTestCase {
     func test_feedImageViewRetryButton_isVisibleOnInvalidImageData() {
         let (sut, loader) = makeSUT()
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         loader.completeFeedLoading(with: [makeImage()])
         
         let view = sut.simulateFeedImageViewIsVisible(at: 0)
@@ -207,7 +207,7 @@ class FeedViewControllerTests: XCTestCase {
         let image1 = makeImage(url: URL(string: "http://url-1.com")!)
         let (sut, loader) = makeSUT()
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         loader.completeFeedLoading(with: [image0, image1])
         
         let view0 = sut.simulateFeedImageViewIsVisible(at: 0)
@@ -230,7 +230,7 @@ class FeedViewControllerTests: XCTestCase {
         let image1 = makeImage(url: URL(string: "http://url-1.com")!)
         let (sut, loader) = makeSUT()
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         loader.completeFeedLoading(with: [image0, image1])
         XCTAssertEqual(loader.loadedImageURLs, [], "Expected no image URL requests until image is near visible")
         
@@ -246,7 +246,7 @@ class FeedViewControllerTests: XCTestCase {
         let image1 = makeImage(url: URL(string: "http://url-1.com")!)
         let (sut, loader) = makeSUT()
         
-        simulateViewAppearance(sut: sut)
+        sut.simulateViewAppearance()
         loader.completeFeedLoading(with: [image0, image1])
         XCTAssertEqual(loader.canceledImageURLs, [], "Expected no cancelled image URL requests until image is not near visible")
         
@@ -266,11 +266,6 @@ class FeedViewControllerTests: XCTestCase {
         trackForMemoryLeaks(sut)
         
         return(sut, loader)
-    }
-    
-    private func simulateViewAppearance(sut: FeedViewController) {
-        sut.beginAppearanceTransition(true, animated: false)
-        sut.endAppearanceTransition()
     }
     
     private func makeImage(description: String? = nil, location: String? = nil, url: URL = URL(string: "https://any-url.com")!) -> FeedImage {
