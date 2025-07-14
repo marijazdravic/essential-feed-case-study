@@ -445,7 +445,7 @@ private extension FeedViewController {
 
 extension FeedViewController {
     func replaceRefreshControlWithFakeForiOS17Support() {
-        let fake = FakeRefreshcontrol()
+        let fake = FakeRefreshControl()
         
         refreshControl?.allTargets.forEach { target in
             refreshControl?

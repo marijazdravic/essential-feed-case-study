@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class FakeRefreshcontrol: UIRefreshControl {
+class FakeRefreshControl: UIRefreshControl {
     private var _isRefreshing = false
     
     override var isRefreshing: Bool { _isRefreshing }
