@@ -27,8 +27,6 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
             vc.refresh()
             vc.onViewIsAppearing = nil
         }
-        
-        tableView.prefetchDataSource = self
     }
     
     @IBAction private func refresh() {
