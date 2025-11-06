@@ -134,7 +134,8 @@
 			membershipExceptions = (
 				/Localized/Feed.strings,
 				FeedErrorViewModel.swift,
-				FeedImagePresentr.swift,
+				FeedImagePresenter.swift,
+				FeedImageViewModel.swift,
 				FeedLoadingViewModel.swift,
 				FeedPresenter.swift,
 				FeedViewModel.swift,
