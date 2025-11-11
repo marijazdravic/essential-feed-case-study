@@ -20,14 +20,6 @@ class RemoteFeedImageDataLoader {
         case invalidData
     }
     
-//    private struct HTTPTaskWrapper: FeedImageDataLoaderTask {
-//        let wrapped: HTTPClientTask
-//        
-//        func cancel() {
-//            wrapped.cancel()
-//        }
-//    }
-    
     private final class HTTPClientTaskWrapper: FeedImageDataLoaderTask {
         private var completion: ((FeedImageDataLoader.Result) -> Void)?
         
