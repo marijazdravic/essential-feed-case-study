@@ -51,6 +51,8 @@
 		E3EB9FF92DFF0FB9001007F6 /* XCTestCase+FailableDeleteFeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EB9FF82DFF0FB9001007F6 /* XCTestCase+FailableDeleteFeedStoreSpecs.swift */; };
 		E3EDC2962DDE1228005299A9 /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EDC2952DDE1228005299A9 /* URLSessionHTTPClientTests.swift */; };
 		E3EDC2982DDF315E005299A9 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EDC2972DDF315E005299A9 /* XCTestCase+MemoryLeakTracking.swift */; };
+		E3EFD03D2EC37A8F008900CE /* RemoteFeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EFD03C2EC37A8F008900CE /* RemoteFeedImageDataLoader.swift */; };
+		E3EFD03F2EC37C23008900CE /* HTTPClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EFD03E2EC37C23008900CE /* HTTPClientSpy.swift */; };
 		E3FDC7D52DE8DA5B00F9AD7C /* CI_macOS.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = E3FDC7D42DE8DA5B00F9AD7C /* CI_macOS.xctestplan */; };
 /* End PBXBuildFile section */
 
@@ -129,6 +131,7 @@
 		E3EB9FF82DFF0FB9001007F6 /* XCTestCase+FailableDeleteFeedStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FailableDeleteFeedStoreSpecs.swift"; sourceTree = "<group>"; };
 		E3EDC2952DDE1228005299A9 /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 		E3EDC2972DDF315E005299A9 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
+		E3EFD03E2EC37C23008900CE /* HTTPClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientSpy.swift; sourceTree = "<group>"; };
 		E3FDC7D42DE8DA5B00F9AD7C /* CI_macOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CI_macOS.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -339,6 +342,7 @@
 				E3EDC2952DDE1228005299A9 /* URLSessionHTTPClientTests.swift */,
 				E334E9BD2DEA16FB0010497C /* EssentialFeed.xctestplan */,
 				E31DD7472EBE80E9001ADC12 /* RemoteFeedImageDataLoaderTests.swift */,
+				E3EFD03E2EC37C23008900CE /* HTTPClientSpy.swift */,
 			);
 			path = "Feed API";
 			sourceTree = "<group>";
@@ -686,6 +690,7 @@
 				E3A435CE2DDC85FC00134B0C /* LoadFeedFromRemoteUseCaseTests.swift in Sources */,
 				E3EDC2962DDE1228005299A9 /* URLSessionHTTPClientTests.swift in Sources */,
 				E3CFC9B12DF8BD560065BF5F /* FeedStoreSpy.swift in Sources */,
+				E3EFD03F2EC37C23008900CE /* HTTPClientSpy.swift in Sources */,
 				E3EB9FF72DFF0D4B001007F6 /* XCTestCase+FailableInsertFeedStoreSpecs.swift in Sources */,
 				E31DD7482EBE80E9001ADC12 /* RemoteFeedImageDataLoaderTests.swift in Sources */,
 				E3648E952DEED80600E611D0 /* CacheFeedUseCaseTests.swift in Sources */,
