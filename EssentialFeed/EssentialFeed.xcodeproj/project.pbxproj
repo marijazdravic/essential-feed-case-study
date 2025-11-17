@@ -335,6 +335,7 @@
 				E32AE11C2DFB6DC3007A0AD9 /* ValidateFeedCacheUsecaseTests.swift */,
 				E3A2C0C22DFF660C009795DB /* CoreDataFeedStoreTests.swift */,
 				E32C98B22EC647B400764400 /* LocalFeedImageDataLoaderTests.swift */,
+				E36AB5822ECA7D0C00E6DC68 /* CacheFeedImageDataUseCaseTests.swift */,
 			);
 			path = "Feed Cache";
 			sourceTree = "<group>";
@@ -371,7 +372,6 @@
 				E3CFC9B02DF8BD560065BF5F /* FeedStoreSpy.swift */,
 				E32AE11E2DFB75A3007A0AD9 /* FeedCacheHelpers.swift */,
 				E36AB57F2ECA7BB200E6DC68 /* FeedImageDataStoreSpy.swift */,
-				E36AB5822ECA7D0C00E6DC68 /* CacheFeedImageDataUseCaseTests.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
