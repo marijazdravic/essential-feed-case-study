@@ -63,7 +63,7 @@ extension LocalFeedLoader: FeedLoader {
         }
     }
     
-    public func validateCache(completion: @escaping (ValidationResult) -> Void = { _ in }) {
+    public func validateCache(completion: @escaping (ValidationResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {
