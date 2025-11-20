@@ -74,7 +74,7 @@ extension LocalFeedLoader: FeedLoader {
             ):
                 self.store.deleteCachedFeed { _ in }
             case .success:
-                break
+                completion(.success(()))
             }
         }
     }
