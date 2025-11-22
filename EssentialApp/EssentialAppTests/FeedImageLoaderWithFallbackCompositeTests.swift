@@ -27,12 +27,13 @@ class FeedImageDataLoaderWithFallbackComposite: FeedImageDataLoader {
     
     func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) ->
     FeedImageDataLoaderTask {
-        _ = primary.loadImageData(from: url) { [weak self] result in
+        let task = TaskWrapper()
+        task.wrapped = primary.loadImageData(from: url) { [weak self] result in
             switch result {
             case .success:
-                break
+                completion(result)
             case .failure:
-                _ = self?.fallback.loadImageData(from: url) { _ in }
+                task.wrapped = self?.fallback.loadImageData(from: url) { _ in }
             }
         }
         
@@ -80,6 +81,26 @@ class FeedImageDataLoaderWithFallbackComposite: FeedImageDataLoader {
             XCTAssertTrue(fallbackLoader.cancelledURLs.isEmpty, "Expected no cancelled URLs in the fallback loader")
         }
 
+        func test_cancelLoadImageData_cancelsFallbackLoaderTaskAfterPrimaryLoaderFailure() {
+            let url = anyURL()
+            let (sut, primaryLoader, fallbackLoader) = makeSUT()
+            
+            let task = sut.loadImageData(from: url) { _ in }
+            primaryLoader.complete(with: anyNSError())
+            task.cancel()
+            
+            XCTAssertTrue(primaryLoader.cancelledURLs.isEmpty, "Expected no cancelled URLs in the primary loader")
+            XCTAssertEqual(fallbackLoader.cancelledURLs, [url], "Expected to cancel URL loading from fallback loader")
+        }
+        
+        func test_loadImageData_deliversPrimaryDataOnPrimaryLoaderSuccess() {
+            let primaryData = anyData()
+            let (sut, primaryLoader, _) = makeSUT()
+            
+            expect(sut, toCompleteWith: .success(primaryData), when: {
+                primaryLoader.complete(with: primaryData)
+            })
+        }
         
         // MARK: - Helpers
         
@@ -91,6 +112,29 @@ class FeedImageDataLoaderWithFallbackComposite: FeedImageDataLoader {
             trackForMemoryLeaks(fallbackLoader, file: file, line: line)
             trackForMemoryLeaks(sut, file: file, line: line)
             return (sut, primaryLoader, fallbackLoader)
+        }
+        
+        private func expect(_ sut: FeedImageDataLoader, toCompleteWith expectedResult: FeedImageDataLoader.Result, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
+            let exp = expectation(description: "Wait for load completion")
+            
+            _ = sut.loadImageData(from: anyURL()) { receivedResult in
+                switch (receivedResult, expectedResult) {
+                case let (.success(receivedFeed), .success(expectedFeed)):
+                    XCTAssertEqual(receivedFeed, expectedFeed, file: file, line: line)
+                    
+                case (.failure, .failure):
+                    break
+                    
+                default:
+                    XCTFail("Expected \(expectedResult), got \(receivedResult) instead", file: file, line: line)
+                }
+                
+                exp.fulfill()
+            }
+            
+            action()
+            
+            wait(for: [exp], timeout: 1.0)
         }
         
         private func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
@@ -105,6 +149,10 @@ class FeedImageDataLoaderWithFallbackComposite: FeedImageDataLoader {
         
         private func anyNSError() -> NSError {
             return NSError(domain: "any error", code: 0)
+        }
+        
+        func anyData() -> Data {
+            return Data("any data".utf8)
         }
         
         private class ImageLoaderSpy: FeedImageDataLoader {
@@ -131,6 +179,10 @@ class FeedImageDataLoaderWithFallbackComposite: FeedImageDataLoader {
             
             func complete(with error: Error, at index: Int = 0) {
                 messages[index].completion(.failure(error))
+            }
+            
+            func complete(with data: Data, at index: Int = 0) {
+                messages[index].completion(.success(data))
             }
         }
     }
