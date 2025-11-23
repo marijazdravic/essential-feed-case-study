@@ -25,18 +25,18 @@ class FeedImageDataLoaderWithFallbackComposite: FeedImageDataLoader {
         self.fallback = fallback
     }
     
-    func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) ->
-    FeedImageDataLoaderTask {
+    func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
         let task = TaskWrapper()
         task.wrapped = primary.loadImageData(from: url) { [weak self] result in
             switch result {
             case .success:
                 completion(result)
+                
             case .failure:
-                task.wrapped = self?.fallback.loadImageData(from: url) { _ in }
+                task.wrapped = self?.fallback.loadImageData(from: url, completion: completion)
             }
+            
         }
-        
         return task
     }
     
@@ -80,7 +80,7 @@ class FeedImageDataLoaderWithFallbackComposite: FeedImageDataLoader {
             XCTAssertEqual(primaryLoader.cancelledURLs, [url], "Expected to cancel URL loading from primary loader")
             XCTAssertTrue(fallbackLoader.cancelledURLs.isEmpty, "Expected no cancelled URLs in the fallback loader")
         }
-
+        
         func test_cancelLoadImageData_cancelsFallbackLoaderTaskAfterPrimaryLoaderFailure() {
             let url = anyURL()
             let (sut, primaryLoader, fallbackLoader) = makeSUT()
@@ -99,6 +99,16 @@ class FeedImageDataLoaderWithFallbackComposite: FeedImageDataLoader {
             
             expect(sut, toCompleteWith: .success(primaryData), when: {
                 primaryLoader.complete(with: primaryData)
+            })
+        }
+        
+        func test_loadImageData_deliversFallbackDataOnFallbackLoaderSuccess() {
+            let fallbackData = anyData()
+            let (sut, primaryLoader, fallbackLoader) = makeSUT()
+            
+            expect(sut, toCompleteWith: .success(fallbackData), when: {
+                primaryLoader.complete(with: anyNSError())
+                fallbackLoader.complete(with: fallbackData)
             })
         }
         
