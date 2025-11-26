@@ -8,16 +8,26 @@
 import XCTest
 import EssentialFeed
 
-class FeedImageDataLoaderCacaheDecorator: FeedImageDataLoader {
+protocol FeedImageCache {
+    typealias SaveResult = Result<Void, Swift.Error>
+    
+    func save(_ data: Data, for url: URL, completion: @escaping (SaveResult) -> Void)
+}
+
 class FeedImageDataLoaderCacheDecorator: FeedImageDataLoader {
     let decoratee: FeedImageDataLoader
+    let cache: FeedImageCache
     
-    init(decoratee: FeedImageDataLoader) {
+    init(decoratee: FeedImageDataLoader, cache: FeedImageCache) {
         self.decoratee = decoratee
+        self.cache = cache
     }
     
     func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
-        return decoratee.loadImageData(from: url, completion: completion)
+        return decoratee.loadImageData(from: url) { [ weak self ] result in
+            self?.cache.save((try? result.get()) ?? Data(), for: url) { _ in }
+            completion(result)
+        }
     }
 }
 
@@ -67,7 +77,7 @@ class FeedImageDataLoaderCacheDecoratorTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedImageDataLoader, loader: FeedImageDataLoaderSpy) {
+    private func makeSUT(cache: FeedCacheSpy = .init(), file: StaticString = #file, line: UInt = #line) -> (sut: FeedImageDataLoader, loader: FeedImageDataLoaderSpy) {
         let loader = FeedImageDataLoaderSpy()
         let sut = FeedImageDataLoaderCacheDecorator(decoratee: loader, cache: cache)
         trackForMemoryLeaks(loader, file: file, line: line)
@@ -99,10 +109,23 @@ class FeedImageDataLoaderCacheDecoratorTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
+    class FeedCacheSpy: FeedImageCache {
+        private(set) var messages = [Message]()
+        
+        enum Message: Equatable {
+            case save(data: Data, for: URL)
+        }
+        
+        func save(_ data: Data, for url: URL, completion: @escaping (SaveResult) -> Void) {
+            messages.append(.save(data: data, for: url))
+            completion(.success(()))
+        }
+    }
+    
     private class FeedImageDataLoaderSpy: FeedImageDataLoader {
         private var messages = [(url: URL, completion: (FeedImageDataLoader.Result) -> Void)]()
         
-        var loadedURLs: [URL ]{
+        var loadedURLs: [URL]{
             return messages.map { $0.url }
         }
         private(set) var canceledImageURLs = [URL]()
