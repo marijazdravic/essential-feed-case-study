@@ -62,6 +62,10 @@ extension FeedViewController {
         return tableView.numberOfRows(inSection: feedImageSection)
     }
     
+    func renderedFeedImageData(at index: Int) -> Data? {
+        return simulateFeedImageViewIsVisible(at: index)?.renderedImage
+    }
+    
     func feedImageView(at row: Int) -> UITableViewCell? {
         let ds = tableView.dataSource
         let index = IndexPath(row: row, section: feedImageSection)
