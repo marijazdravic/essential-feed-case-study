@@ -26,7 +26,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
         
         expect(
             sut,
-            toRetrieve: .success(CacheFeed(feed: feed, timestamp: timestamp)),
+            toRetrieve: .success(CachedFeed(feed: feed, timestamp: timestamp)),
             file: file,
             line: line
         )
@@ -38,7 +38,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
         
         insert((feed, timestamp), to: sut)
         
-        expect(sut, toRetrieveTwice: .success(CacheFeed(feed: feed, timestamp: timestamp)), file: file, line: line)
+        expect(sut, toRetrieveTwice: .success(CachedFeed(feed: feed, timestamp: timestamp)), file: file, line: line)
     }
     
     func assertThatInsertDeliversNoErrorOnEmptyCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
@@ -64,7 +64,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
         
         expect(
             sut,
-            toRetrieve: .success(CacheFeed(feed: latestFeed, timestamp: latestTimestamp)),
+            toRetrieve: .success(CachedFeed(feed: latestFeed, timestamp: latestTimestamp)),
             file: file,
             line: line
         )
