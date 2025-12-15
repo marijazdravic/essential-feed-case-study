@@ -37,9 +37,25 @@ extension FeedViewController {
     }
     
     func simulateViewAppearance() {
+        if !isViewLoaded {
+            loadViewIfNeeded()
+            
+            prepareForFirstAppearance()
+        }
+        
         beginAppearanceTransition(true, animated: false)
         endAppearanceTransition()
     }
+    
+    private func prepareForFirstAppearance() {
+        setSmallFrameToPreventRenderingCells()
+        replaceRefreshControlWithFakeForiOS17Support()
+    }
+    
+    private func setSmallFrameToPreventRenderingCells() {
+        tableView.frame = CGRect(x: 0, y: 0, width: 390, height: 1)
+    }
+    
     
     @discardableResult
     func simulateFeedImageViewNotVisible(at row: Int) -> FeedImageCell? {
