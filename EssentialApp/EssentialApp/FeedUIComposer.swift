@@ -33,8 +33,7 @@ public final class FeedUIComposer {
         
         return feedController
     }
-    
-    
+
     private static func makeFeedViewController(delegate: FeedViewControllerDelegate, title: String) -> FeedViewController {
         let bundle = Bundle(for: FeedViewController.self)
         let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
