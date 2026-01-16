@@ -16,7 +16,7 @@ public final class RemoteImageCommentsLoader {
         case invalidData
     }
     
-    public typealias Result = FeedLoader.Result
+    public typealias Result = Swift.Result<[ImageComment], Swift.Error>
     
     public init(url: URL, client: HTTPClient) {
         self.url = url
@@ -45,12 +45,12 @@ public final class RemoteImageCommentsLoader {
     }
 }
 
-private extension Array where Element == RemoteFeedItem {
-    func toModels() -> [FeedImage] {
-        return map { FeedImage(id: $0.id,
-                              description: $0.description,
-                              location: $0.location,
-                              url: $0.image)
+private extension Array where Element == ImageComment {
+    func toModels() -> [ImageComment] {
+        return map { ImageComment(id: $0.id,
+                                  message: $0.message,
+                                  createdAt: $0.createdAt,
+                                  username: $0.username)
         }
     }
 }
