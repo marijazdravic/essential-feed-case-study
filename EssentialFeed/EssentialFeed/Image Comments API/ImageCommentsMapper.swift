@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal class ImageCommentsMapper {
+public class ImageCommentsMapper {
     private struct Root: Decodable {
         private let items: [Item]
         
