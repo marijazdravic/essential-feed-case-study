@@ -10,7 +10,6 @@ import XCTest
 import EssentialFeed
 
 class FeedItemsMapperTests: XCTestCase {
-  
     
     func test_map_deliversErrorOnNon200HTTPResponse() throws {
         let json = makeItemsJSON([])
@@ -40,7 +39,7 @@ class FeedItemsMapperTests: XCTestCase {
     }
     
     func test_map_deliversItemsOn200HTTPResponseWithJSONItems() throws {
-
+        
         let item1 = makeItem(
             id: UUID(),
             description: nil,
@@ -70,7 +69,7 @@ class FeedItemsMapperTests: XCTestCase {
             "location": location,
             "image": imageURL.absoluteString
         ].compactMapValues { $0 }
-
+        
         return (item, json)
     }
 }

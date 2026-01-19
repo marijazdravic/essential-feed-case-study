@@ -66,7 +66,7 @@ extension Publisher where Output == [FeedImage] {
 }
 
 extension Publisher where Output == Data {
-    func caching(to cache: FeedImageDataCache, using url: URL)  -> AnyPublisher<Output, Failure> {
+    func caching(to cache: FeedImageDataCache, using url: URL) -> AnyPublisher<Output, Failure> {
         handleEvents(receiveOutput: { data in
             cache.saveIgnoringResult(data, for: url)
         }).eraseToAnyPublisher()

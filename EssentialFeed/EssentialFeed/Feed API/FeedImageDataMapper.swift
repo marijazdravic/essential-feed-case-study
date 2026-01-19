@@ -1,0 +1,21 @@
+//
+//  FeedImageDataMapper.swift
+//  EssentialFeed
+//
+//  Created by Marija Zdravic on 11.11.2025..
+//
+
+import Foundation
+
+public final class FeedImageDataMapper {
+    public enum Error: Swift.Error {
+        case invalidData
+    }
+    
+    public static func map(data: Data, response: HTTPURLResponse) throws -> Data {
+        guard response.isOK && !data.isEmpty else {
+            throw Error.invalidData
+        }
+        return data
+    }
+}
