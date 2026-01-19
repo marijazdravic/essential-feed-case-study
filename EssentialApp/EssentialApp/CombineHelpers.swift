@@ -9,12 +9,18 @@ import Foundation
 import Combine
 import EssentialFeed
 
-public extension FeedLoader {
-    typealias Publisher = AnyPublisher<[FeedImage], Error>
-    func loadPublisher() -> Publisher {
+public extension HTTPClient {
+    typealias Publisher = AnyPublisher<(Data, HTTPURLResponse), Error>
+    
+    func getPublisher(url: URL) -> Publisher {
+        var task: HTTPClientTask?
+        
         return Deferred {
-            Future (self.load)
+            Future { completion in
+                task = self.get(from: url, completion: completion)
+            }
         }
+        .handleEvents(receiveCancel: { task?.cancel() })
         .eraseToAnyPublisher()
     }
 }
@@ -34,6 +40,18 @@ public extension FeedImageDataLoader {
         .eraseToAnyPublisher()
     }
 }
+
+public extension LocalFeedLoader {
+    typealias Publisher = AnyPublisher<[FeedImage], Error>
+    
+    func loadPublisher() -> Publisher {
+        Deferred {
+            Future(self.load)
+        }
+        .eraseToAnyPublisher()
+    }
+}
+
 
 extension Publisher {
     func fallback(to fallbackPublisher: @escaping () -> AnyPublisher<Output, Failure>) -> AnyPublisher<Output, Failure> {
