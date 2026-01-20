@@ -32,11 +32,10 @@ class LoadResourcePresenterTests: XCTestCase {
     func test_didFinishLoadingResource_displaysResourceAndStopsLoading() {
         
         let (sut, view) = makeSUT(mapper: { resource in
-            resource + "view model"
+            resource + " view model"
         })
-        let resource = "a resource"
         
-        sut.didFinishLoading(with: resource)
+        sut.didFinishLoading(with: "resource")
 
         
         XCTAssertEqual(view.messages, [
@@ -59,12 +58,14 @@ class LoadResourcePresenterTests: XCTestCase {
     
     // Mark: -Helpers
     
+    private typealias SUT = LoadResourcePresenter<String, ViewSpy>
+    
     private func makeSUT(
-        mapper: @escaping LoadResourcePresenter.Mapper = { _ in "any" },
+        mapper: @escaping SUT.Mapper = { _ in "any" },
         file: StaticString = #file,
-        line: UInt = #line) -> (sut: LoadResourcePresenter, view: ViewSpy) {
+        line: UInt = #line) -> (sut: SUT, view: ViewSpy) {
         let view = ViewSpy()
-        let sut = LoadResourcePresenter(
+        let sut = SUT(
             resourceView: view,
             errorView: view,
             loadingView: view,
@@ -77,7 +78,7 @@ class LoadResourcePresenterTests: XCTestCase {
     
     private func localized(_ key: String, file: StaticString = #file, line: UInt = #line) -> String {
         let table = "Feed"
-        let bundle = Bundle(for: LoadResourcePresenter.self)
+        let bundle = Bundle(for: SUT.self)
         let value = bundle.localizedString(forKey: key, value: nil, table: table)
         if value == key {
             XCTFail("Missing localized string for key: \(key) in table: \(table)", file: file, line: line)
@@ -86,6 +87,7 @@ class LoadResourcePresenterTests: XCTestCase {
     }
     
     private class ViewSpy: ResourceView, FeedErrorView, FeedLoadingView {
+        typealias ResourceViewModel = String
         
         enum Message: Hashable {
             case display(errorMessage: String?)
