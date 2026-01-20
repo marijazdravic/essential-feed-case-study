@@ -1,5 +1,5 @@
 //
-//  LoadResourcePresentationTests.swift
+//  LoadResourcePresenterTests.swift
 //  EssentialFeedTests
 //
 //  Created by Marija Zdravic on 19.01.2026..
@@ -44,15 +44,15 @@ class LoadResourcePresenterTests: XCTestCase {
         ])
     }
     
-    func test_didFinishLoadingFeedWithError_displaysLocalizedErrorMessageAndStopsLoading() {
+    func test_didFinishLoadingWithError_displaysLocalizedErrorMessageAndStopsLoading() {
         let (sut, view) = makeSUT()
         
         let error = anyNSError()
-        sut.didFinishLoadingFeed(with: error)
+        sut.didFinishLoading(with: error)
         
         XCTAssertEqual(view.messages, [
             .display(isLoading: false),
-            .display(errorMessage: localized("FEED_VIEW_CONNECTION_ERROR"))
+            .display(errorMessage: localized("GENERIC_CONNECTION_ERROR"))
         ])
     }
     

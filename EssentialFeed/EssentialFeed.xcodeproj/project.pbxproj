@@ -220,7 +220,7 @@
 		E33E26B42F1EE64D0068952E /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				LoadResourcePresentationTests.swift,
+				LoadResourcePresenterTests.swift,
 			);
 			target = 080EDEF921B6DA7E00813479 /* EssentialFeedTests */;
 		};
