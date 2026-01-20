@@ -221,12 +221,14 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				LoadResourcePresenterTests.swift,
+				SharedLocalizationTests.swift,
 			);
 			target = 080EDEF921B6DA7E00813479 /* EssentialFeedTests */;
 		};
 		E33E26B92F1EE7250068952E /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				/Localized/Shared.strings,
 				LoadResourcePresenter.swift,
 			);
 			target = 080EDEF021B6DA7E00813479 /* EssentialFeed */;
