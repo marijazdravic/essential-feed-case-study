@@ -86,7 +86,7 @@ class LoadResourcePresenterTests: XCTestCase {
         return value
     }
     
-    private class ViewSpy: ResourceView, FeedErrorView, ResourceLoadingView {
+    private class ViewSpy: ResourceView, ResourceErrorView, ResourceLoadingView {
         typealias ResourceViewModel = String
         
         enum Message: Hashable {

@@ -93,7 +93,7 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
     }
 }
 
-extension FeedViewController: FeedErrorView {
+extension FeedViewController: ResourceErrorView {
     public func display(_ viewModel: FeedErrorViewModel) {
         errorView?.message = viewModel.message
     }
