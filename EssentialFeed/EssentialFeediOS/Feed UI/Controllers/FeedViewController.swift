@@ -13,7 +13,7 @@ public protocol FeedViewControllerDelegate {
     func didRequestFeedRefresh()
 }
 
-public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, FeedLoadingView  {
+public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView  {
     public var delegate: FeedViewControllerDelegate?
     
     @IBOutlet public private(set) var errorView: ErrorView?
