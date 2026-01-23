@@ -9,10 +9,6 @@ import Foundation
 import UIKit
 import EssentialFeed
 
-public protocol ListViewControllerDelegate {
-    func loadResource()
-}
-
 public protocol CellController {
     func view(in: UITableView) -> UITableViewCell
     func preload()
@@ -20,7 +16,6 @@ public protocol CellController {
 }
 
 public final class ListViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView  {
-    public var delegate: ListViewControllerDelegate?
     
     @IBOutlet public private(set) var errorView: ErrorView?
     
@@ -29,6 +24,8 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
     private var tableModel = [CellController]() {
         didSet { tableView.reloadData()}
     }
+    
+    public var onRefresh: (() -> Void)?
     
     private var onViewIsAppearing: ((ListViewController) -> Void)?
     
@@ -48,7 +45,7 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
     }
     
     @IBAction private func refresh() {
-        delegate?.loadResource()
+        onRefresh?()
     }
     
     public func display(_ cellControllers: [CellController]) {
