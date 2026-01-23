@@ -228,6 +228,7 @@
 		E34DFDF12F23AE3F0099001C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				ImageCommentsLocalizationTests.swift,
 				ImageCommentsPresentationTests.swift,
 			);
 			target = 080EDEF921B6DA7E00813479 /* EssentialFeedTests */;
