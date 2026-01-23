@@ -1,5 +1,5 @@
 //
-//  FeedViewController.swift
+//  ListViewController.swift
 //  EssentialFeediOS
 //
 //  Created by Marija Zdravic on 03.07.2025..
@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import EssentialFeed
 
-public protocol FeedViewControllerDelegate {
+public protocol ListViewControllerDelegate {
     func loadResource()
 }
 
@@ -19,8 +19,8 @@ public protocol CellController {
     func cancelLoad()
 }
 
-public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView  {
-    public var delegate: FeedViewControllerDelegate?
+public final class ListViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView  {
+    public var delegate: ListViewControllerDelegate?
     
     @IBOutlet public private(set) var errorView: ErrorView?
     
@@ -30,7 +30,7 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
         didSet { tableView.reloadData()}
     }
     
-    private var onViewIsAppearing: ((FeedViewController) -> Void)?
+    private var onViewIsAppearing: ((ListViewController) -> Void)?
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +99,7 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
     }
 }
 
-extension FeedViewController: ResourceErrorView {
+extension ListViewController: ResourceErrorView {
     public func display(_ viewModel: ResourceErrorViewModel) {
         errorView?.message = viewModel.message
     }

@@ -1,5 +1,5 @@
 //
-//  FeedViewController+TestHelpers.swift
+//  ListViewController+TestHelpers.swift
 //  EssentialFeediOSTests
 //
 //  Created by Marija Zdravic on 14.07.2025..
@@ -9,7 +9,7 @@ import Foundation
 import EssentialFeediOS
 import UIKit
 
-extension FeedViewController {
+extension ListViewController {
     var isShowingLoadingIndicator: Bool {
         return refreshControl?.isRefreshing == true
     }
@@ -96,7 +96,7 @@ extension FeedViewController {
     }
 }
 
-extension FeedViewController {
+extension ListViewController {
     func replaceRefreshControlWithFakeForiOS17Support() {
         let fake = FakeRefreshControl()
         
