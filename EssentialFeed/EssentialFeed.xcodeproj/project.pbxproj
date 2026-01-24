@@ -205,6 +205,48 @@
 			);
 			target = 080EDEF021B6DA7E00813479 /* EssentialFeed */;
 		};
+		E33737B8C5B059D100D90075 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Feed UI/Controllers/FeedImageCellController.swift",
+				"Feed UI/Views/Feed.storyboard",
+				"Feed UI/Views/FeedAssets.xcassets",
+				"Feed UI/Views/FeedImageCell.swift",
+				"Feed UI/Views/Helpers/UIImageView+Animations.swift .swift",
+				"Feed UI/Views/Helpers/UIView+Shimmering.swift",
+				"Image Comment UI/Controllers/ImageCommentCellController.swift",
+				"Image Comment UI/Views/ImageCommentCell.swift",
+				"Image Comment UI/Views/ImageComments.storyboard",
+				"Shared UI/Controllers/CellController.swift",
+				"Shared UI/Controllers/ListViewController.swift",
+				"Shared UI/ErrorView.swift",
+				"Shared UI/Views/Helpers/UIRefreshControl+Helpers.swift.swift",
+				"Shared UI/Views/Helpers/UITableView+Dequeueing.swift.swift",
+				"Shared UI/Views/Helpers/UITableView+HeaderSizing.swift",
+			);
+			target = E38E7E632E0EF08000D2452E /* EssentialFeediOS */;
+		};
+		E33737B9C5B059D100D90075 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Feed UI/Controllers/FeedImageCellController.swift",
+				"Feed UI/Views/Feed.storyboard",
+				"Feed UI/Views/FeedAssets.xcassets",
+				"Feed UI/Views/FeedImageCell.swift",
+				"Feed UI/Views/Helpers/UIImageView+Animations.swift .swift",
+				"Feed UI/Views/Helpers/UIView+Shimmering.swift",
+				"Image Comment UI/Controllers/ImageCommentCellController.swift",
+				"Image Comment UI/Views/ImageCommentCell.swift",
+				"Image Comment UI/Views/ImageComments.storyboard",
+				"Shared UI/Controllers/CellController.swift",
+				"Shared UI/Controllers/ListViewController.swift",
+				"Shared UI/ErrorView.swift",
+				"Shared UI/Views/Helpers/UIRefreshControl+Helpers.swift.swift",
+				"Shared UI/Views/Helpers/UITableView+Dequeueing.swift.swift",
+				"Shared UI/Views/Helpers/UITableView+HeaderSizing.swift",
+			);
+			target = E38E7E6A2E0EF08000D2452E /* EssentialFeediOSTests */;
+		};
 		E33E26B42F1EE64D0068952E /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -249,12 +291,12 @@
 		E32F98132F1AE40000441724 /* Shared API */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E32F98142F1AE43F00441724 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Shared API"; sourceTree = "<group>"; };
 		E32F98152F1AE45F00441724 /* Shared API infra */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E32F98162F1AE47800441724 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Shared API infra"; sourceTree = "<group>"; };
 		E3373763C5B059D100D90075 /* Image Comments API */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E3373765C5B059D100D90075 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Image Comments API"; sourceTree = "<group>"; };
+		E33737A9C5B059D100D90075 /* EssentialFeediOS */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E33737B8C5B059D100D90075 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, E33737B9C5B059D100D90075 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = EssentialFeediOS; sourceTree = "<group>"; };
 		E33E26B12F1EE61C0068952E /* Shared Presentation */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E33E26B42F1EE64D0068952E /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Shared Presentation"; sourceTree = "<group>"; };
 		E33E26B52F1EE70B0068952E /* Shared Presentation */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E33E26B92F1EE7250068952E /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Shared Presentation"; sourceTree = "<group>"; };
 		E3436A212DE0D42B00615B52 /* EssentialFeedAPIEndToEndTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EssentialFeedAPIEndToEndTests; sourceTree = "<group>"; };
 		E34DFDEE2F23AC9E0099001C /* Image Comments Presentation */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E34DFDF12F23AE3F0099001C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Image Comments Presentation"; sourceTree = "<group>"; };
 		E34DFDF32F23AFDC0099001C /* Image Comments Presentation */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E34DFDF62F23B0BC0099001C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Image Comments Presentation"; sourceTree = "<group>"; };
-		E38E7E652E0EF08000D2452E /* EssentialFeediOS */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EssentialFeediOS; sourceTree = "<group>"; };
 		E38E7E6F2E0EF08000D2452E /* EssentialFeediOSTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EssentialFeediOSTests; sourceTree = "<group>"; };
 		E3E1A6EA2E07128F00D1EEE8 /* EssentialFeedCacheIntegrationTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EssentialFeedCacheIntegrationTests; sourceTree = "<group>"; };
 		E3EFD0422EC38FCF008900CE /* Helpers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Helpers; sourceTree = "<group>"; };
@@ -319,9 +361,9 @@
 				E3FDC7D42DE8DA5B00F9AD7C /* CI_macOS.xctestplan */,
 				080EDEF321B6DA7E00813479 /* EssentialFeed */,
 				080EDEFE21B6DA7E00813479 /* EssentialFeedTests */,
-				E3436A212DE0D42B00615B52 /* EssentialFeedAPIEndToEndTests */,
 				E3E1A6EA2E07128F00D1EEE8 /* EssentialFeedCacheIntegrationTests */,
-				E38E7E652E0EF08000D2452E /* EssentialFeediOS */,
+				E3436A212DE0D42B00615B52 /* EssentialFeedAPIEndToEndTests */,
+				E33737A9C5B059D100D90075 /* EssentialFeediOS */,
 				E38E7E6F2E0EF08000D2452E /* EssentialFeediOSTests */,
 				E3DC11CC2E10648C00775ED3 /* Frameworks */,
 				080EDEF221B6DA7E00813479 /* Products */,
@@ -652,9 +694,6 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				E38E7E652E0EF08000D2452E /* EssentialFeediOS */,
-			);
 			name = EssentialFeediOS;
 			packageProductDependencies = (
 			);
@@ -676,6 +715,7 @@
 				E38E7E6E2E0EF08000D2452E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				E33737A9C5B059D100D90075 /* EssentialFeediOS */,
 				E38E7E6F2E0EF08000D2452E /* EssentialFeediOSTests */,
 			);
 			name = EssentialFeediOSTests;
