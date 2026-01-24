@@ -344,15 +344,15 @@
 		080EDEF321B6DA7E00813479 /* EssentialFeed */ = {
 			isa = PBXGroup;
 			children = (
-				E34DFDF32F23AFDC0099001C /* Image Comments Presentation */,
+				E32F98152F1AE45F00441724 /* Shared API infra */,
 				E33E26B52F1EE70B0068952E /* Shared Presentation */,
 				080EDF1021B6DFA200813479 /* Feed Feature */,
 				E32F980F2F1ABDCF00441724 /* Image Comment Feature */,
 				E3BD65F62DDC9A68008EC29A /* Feed API */,
 				E32F981F2F1AE63B00441724 /* Image Comments API */,
-				E32F98152F1AE45F00441724 /* Shared API infra */,
 				E32F98132F1AE40000441724 /* Shared API */,
 				E3202F872EBBD39C0008ADE2 /* FeedPresentation */,
+				E34DFDF32F23AFDC0099001C /* Image Comments Presentation */,
 				E325F7262DF0F45200B60EB5 /* Feed Cache */,
 				080EDEF521B6DA7E00813479 /* Info.plist */,
 			);
