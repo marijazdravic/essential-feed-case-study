@@ -11,8 +11,13 @@ import EssentialFeed
 
 public protocol CellController {
     func view(in: UITableView) -> UITableViewCell
-    func preload()
+    func preload() 
     func cancelLoad()
+}
+
+public extension CellController {
+    func preload() {}
+    func cancelLoad() {}
 }
 
 public final class ListViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView  {
