@@ -18,6 +18,10 @@ extension ListViewController {
         refreshControl?.simulatePullToRefresh()
     }
     
+    func simulateErrorViewTapped() {
+        errorView.simulateTap()
+    }
+    
     func simulateFeedImageViewNearVisible(at row: Int) {
         let ds = tableView.prefetchDataSource
         let index = IndexPath(row: row, section: feedImageSection)
@@ -70,7 +74,7 @@ extension ListViewController {
     
     
     var errorMessage: String? {
-        return errorView?.message
+        return errorView.message
     }
     
     func numberOfRenderedImageViews() -> Int {
