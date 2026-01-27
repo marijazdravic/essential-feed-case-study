@@ -59,6 +59,11 @@ class LoaderSpy: FeedImageDataLoader {
         }
     }
     
+    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+            self.cell = cell as? FeedImageCell
+            delegate.didRequestImage()
+        }
+    
     func completeImageLoading(with imageData: Data = Data(), at index: Int = 0) {
         imageRequests[index].completion(.success(imageData))
     }

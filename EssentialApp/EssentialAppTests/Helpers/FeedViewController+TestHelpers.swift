@@ -72,6 +72,18 @@ extension ListViewController {
         return view
     }
     
+    private var feedImagesSection: Int { 0 }
+    
+    @discardableResult
+    func simulateFeedImageBecomingVisibleAgain(at row: Int) -> FeedImageCell? {
+        let view = simulateFeedImageViewNotVisible(at: row)
+        
+        let delegate = tableView.delegate
+        let index = IndexPath(row: row, section: feedImagesSection)
+        delegate?.tableView?(tableView, willDisplay: view!, forRowAt: index)
+        
+        return view
+    }
     
     var errorMessage: String? {
         return errorView.message
