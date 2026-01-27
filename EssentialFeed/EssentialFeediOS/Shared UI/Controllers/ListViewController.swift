@@ -77,7 +77,7 @@ public final class ListViewController: UITableViewController,
     }
     
     public func display(_ cellControllers: [CellController]) {
-       var snapshot = NSDiffableDataSourceSnapshot<Int, CellController>()
+        var snapshot = NSDiffableDataSourceSnapshot<Int, CellController>()
         snapshot.appendSections([0])
         snapshot.appendItems(cellControllers, toSection: 0)
         dataSource.applySnapshotUsingReloadData(snapshot)
@@ -90,9 +90,13 @@ public final class ListViewController: UITableViewController,
     public override func viewIsAppearing(_ animated: Bool) {
         onViewIsAppearing?(self)
     }
-   
-    public override func tableView( _ tableView: UITableView, didEndDisplaying cell: UITableViewCell,
-                                    forRowAt indexPath: IndexPath) {
+    
+    public override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let dl = cellController(at: indexPath)?.delegate
+        dl?.tableView?(tableView, willDisplay: cell, forRowAt: indexPath)
+    }
+    
+    public override func tableView( _ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let dl = cellController(at: indexPath)?.delegate
         dl?.tableView?(tableView, didEndDisplaying: cell, forRowAt: indexPath)
     }
