@@ -1,5 +1,5 @@
 //
-//  FeedViewController+TestHelpers.swift
+//  ListViewController+TestHelpers.swift
 //  EssentialFeediOSTests
 //
 //  Created by Marija Zdravic on 14.07.2025..
@@ -9,13 +9,17 @@ import Foundation
 import EssentialFeediOS
 import UIKit
 
-extension FeedViewController {
+extension ListViewController {
     var isShowingLoadingIndicator: Bool {
         return refreshControl?.isRefreshing == true
     }
     
     func simulateUserInitiatedFeedReload() {
         refreshControl?.simulatePullToRefresh()
+    }
+    
+    func simulateErrorViewTapped() {
+        errorView.simulateTap()
     }
     
     func simulateFeedImageViewNearVisible(at row: Int) {
@@ -56,25 +60,37 @@ extension FeedViewController {
         tableView.frame = CGRect(x: 0, y: 0, width: 390, height: 1)
     }
     
-    
     @discardableResult
     func simulateFeedImageViewNotVisible(at row: Int) -> FeedImageCell? {
         let view = simulateFeedImageViewIsVisible(at: row)
         
         let delegate = tableView.delegate
-        let index = IndexPath(row: row, section: feedImageSection)
+        let index = IndexPath(row: row, section: feedImagesSection)
         delegate?.tableView?(tableView, didEndDisplaying: view!, forRowAt: index)
         
         return view
     }
     
+    private var feedImagesSection: Int { 0 }
+    
+    @discardableResult
+    func simulateFeedImageBecomingVisibleAgain(at row: Int) -> FeedImageCell? {
+        let view = simulateFeedImageViewNotVisible(at: row)
+        
+        let delegate = tableView.delegate
+        let index = IndexPath(row: row, section: feedImagesSection)
+        delegate?.tableView?(tableView, willDisplay: view!, forRowAt: index)
+        
+        return view
+    }
     
     var errorMessage: String? {
-        return errorView?.message
+        return errorView.message
     }
     
     func numberOfRenderedImageViews() -> Int {
-        return tableView.numberOfRows(inSection: feedImageSection)
+        tableView.numberOfSections == 0 ? 0 :
+        tableView.numberOfRows(inSection: feedImageSection)
     }
     
     func renderedFeedImageData(at index: Int) -> Data? {
@@ -96,7 +112,7 @@ extension FeedViewController {
     }
 }
 
-extension FeedViewController {
+extension ListViewController {
     func replaceRefreshControlWithFakeForiOS17Support() {
         let fake = FakeRefreshControl()
         
