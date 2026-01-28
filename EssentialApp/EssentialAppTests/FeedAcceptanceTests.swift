@@ -13,29 +13,29 @@ import XCTest
 
 class FeedAcceptanceTests: XCTestCase {
 
-    func test_onLaunch_displaysRemoteFeedWhenCustomerHasConnectivity() {
-        let feed = launch(httpClient: .online(response), store: .empty)
+    func test_onLaunch_displaysRemoteFeedWhenCustomerHasConnectivity() throws {
+        let feed = try launch(httpClient: .online(response), store: .empty)
 
         XCTAssertEqual(feed.numberOfRenderedImageViews(), 2)
         XCTAssertEqual(feed.renderedFeedImageData(at: 0), makeImageData())
         XCTAssertEqual(feed.renderedFeedImageData(at: 1), makeImageData())
     }
 
-    func test_onLaunch_displaysCachedRemoteFeedWhenCustomerHasNoConnectivity() {
+    func test_onLaunch_displaysCachedRemoteFeedWhenCustomerHasNoConnectivity() throws {
         let sharedStore = InMemoryFeedStore.empty
-        let onlineFeed = launch(httpClient: .online(response), store: sharedStore)
+        let onlineFeed = try launch(httpClient: .online(response), store: sharedStore)
         onlineFeed.simulateFeedImageViewIsVisible(at: 0)
         onlineFeed.simulateFeedImageViewIsVisible(at: 1)
 
-        let offlineFeed = launch(httpClient: .offline, store: sharedStore)
+        let offlineFeed = try launch(httpClient: .offline, store: sharedStore)
 
         XCTAssertEqual(offlineFeed.numberOfRenderedImageViews(), 2)
         XCTAssertEqual(offlineFeed.renderedFeedImageData(at: 0), makeImageData())
         XCTAssertEqual(offlineFeed.renderedFeedImageData(at: 1), makeImageData())
     }
 
-    func test_onLaunch_displaysEmptyFeedWhenCustomerHasNoConnectivityAndNoCache() {
-        let feed = launch(httpClient: .offline, store: .empty)
+    func test_onLaunch_displaysEmptyFeedWhenCustomerHasNoConnectivityAndNoCache() throws {
+        let feed = try launch(httpClient: .offline, store: .empty)
 
         XCTAssertEqual(feed.numberOfRenderedImageViews(), 0)
     }
@@ -61,11 +61,12 @@ class FeedAcceptanceTests: XCTestCase {
     private func launch(
         httpClient: HTTPClientStub = .offline,
         store: InMemoryFeedStore = .empty
-    ) -> ListViewController {
+    ) throws -> ListViewController {
         let sut = SceneDelegate(httpClient: httpClient, store: store, scheduler: .immediateOnMainThread)
-        sut.window = UIWindow()
+        let mainScene = try XCTUnwrap(UIApplication.shared.connectedScenes.first as? UIWindowScene)
+        sut.window = UIWindow(windowScene: mainScene)
         sut.configureWindow()
-
+    
         let nav = sut.window?.rootViewController as? UINavigationController
         let feedVC = nav?.topViewController as! ListViewController
         
