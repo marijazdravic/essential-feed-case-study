@@ -223,6 +223,7 @@
 				"Shared UI/Views/Helpers/UIRefreshControl+Helpers.swift.swift",
 				"Shared UI/Views/Helpers/UITableView+Dequeueing.swift.swift",
 				"Shared UI/Views/Helpers/UITableView+HeaderSizing.swift",
+				"Shared UI/Views/Helpers/UIView+Container.swift",
 			);
 			target = E38E7E632E0EF08000D2452E /* EssentialFeediOS */;
 		};
@@ -244,6 +245,7 @@
 				"Shared UI/Views/Helpers/UIRefreshControl+Helpers.swift.swift",
 				"Shared UI/Views/Helpers/UITableView+Dequeueing.swift.swift",
 				"Shared UI/Views/Helpers/UITableView+HeaderSizing.swift",
+				"Shared UI/Views/Helpers/UIView+Container.swift",
 			);
 			target = E38E7E6A2E0EF08000D2452E /* EssentialFeediOSTests */;
 		};
