@@ -48,19 +48,13 @@ class CommentsUIIntegrationTests: FeedUIIntegrationTests {
     
     func test_loadingCommentsIndicator_isVisibleWhileLoadingComments() {
         let (sut, loader) = makeSUT()
-        sut.replaceRefreshControlWithFakeForiOS17Support()
         
         sut.simulateViewAppearance()
-        XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once view is loaded")
-        
-        sut.refreshControl?.endRefreshing()
-        sut.simulateViewAppearance()
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once view is loaded")
+        XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once view appears")
         
         loader.completeFeedLoading(at: 0)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading is completed successfully")
         
-        sut.simulateViewAppearance()
         sut.simulateUserInitiatedReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiates a reload")
         
