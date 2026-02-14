@@ -35,7 +35,18 @@ class CommentsUIIntegrationTests: FeedUIIntegrationTests {
         XCTAssertEqual(loader.loadCommentsCallCount, 3, "Expected yet another loading request once user initiates another reload")
     }
     
-    override func test_loadingFeedIndicator_isVisibleWhileLoadingFeed() {
+    func test_loadCommentsActions_runsAutomaticallyOnlyOnFirstAppearance() {
+        let (sut, loader) = makeSUT()
+        XCTAssertEqual(loader.loadCommentsCallCount, 0, "Expected no loading requests before view appears")
+
+        sut.simulateViewAppearance()
+        XCTAssertEqual(loader.loadCommentsCallCount, 1, "Expected a loading request once view appears")
+
+        sut.simulateViewAppearance()
+        XCTAssertEqual(loader.loadCommentsCallCount, 1, "Expected no loading request the second time view appears")
+    }
+    
+    func test_loadingCommentsIndicator_isVisibleWhileLoadingComments() {
         let (sut, loader) = makeSUT()
         sut.replaceRefreshControlWithFakeForiOS17Support()
         
