@@ -37,7 +37,7 @@ extension ListViewController {
     
     @discardableResult
     func simulateFeedImageViewIsVisible(at index: Int) -> FeedImageCell? {
-        return feedImageView(at: index) as? FeedImageCell
+        return feedImageView(at: index)
     }
     
     func simulateViewAppearance() {
@@ -93,17 +93,45 @@ extension ListViewController {
         tableView.numberOfRows(inSection: feedImageSection)
     }
     
+    private var commentsSection: Int { 0 }
+    
+    func numberOfRenderedComments() -> Int {
+        tableView.numberOfSections == 0 ? 0 :
+        tableView.numberOfRows(inSection: commentsSection)
+    }
+
+    func commentMessage(at index: Int) -> String? {
+        commentImageView(at: index)?.messageLabel.text
+    }
+    
+    func commentUsername(at index: Int) -> String? {
+        commentImageView(at: index)?.userNameLabel.text
+    }
+    
+    
+    func commentDate(at index: Int) -> String? {
+        commentImageView(at: index)?.dateLabel.text
+    }
+    
+    func commentImageView(at row: Int) -> ImageCommentCell? {
+        cell(at: row, section: commentsSection) as? ImageCommentCell
+    }
+    
+    func feedImageView(at row: Int) -> FeedImageCell? {
+        cell(at: row, section: feedImageSection) as? FeedImageCell
+    }
+    
     func renderedFeedImageData(at index: Int) -> Data? {
         return simulateFeedImageViewIsVisible(at: index)?.renderedImage
     }
     
-    func feedImageView(at row: Int) -> UITableViewCell? {
+    func cell(at row: Int, section: Int) -> UITableViewCell? {
         guard numberOfRenderedImageViews() > row else {
             return nil
         }
         
         let ds = tableView.dataSource
-        let index = IndexPath(row: row, section: feedImageSection)
+        let index = IndexPath(row: row, section: section)
         return ds?.tableView(tableView, cellForRowAt: index)
     }
     
