@@ -27,31 +27,37 @@ final class FeedViewAdapter: ResourceView {
     }
 
     func display(_ viewModel: Paginated<FeedImage>) {
-        controller?.display(
-            viewModel.items.map { model in
-                let adapter = ImageDataPresentationAdapter(
-                    loader: { [imageLoader] in
-                        imageLoader(model.url)
-                    })
-
-                let view = FeedImageCellController(
-                    viewModel: FeedImagePresenter.map(model),
-                    delegate: adapter,
-                    selection: { [selection] in
-                        selection(model)
-                    }
-                )
-
-                adapter.presenter = LoadResourcePresenter(
-                    resourceView: WeakRefVirtualProxy(view),
-                    loadingView: WeakRefVirtualProxy(view),
-                    errorView: WeakRefVirtualProxy(view),
-                    mapper: UIImage.tryMake
-                )
-
-                return CellController(id: model, dataSource: view)
-            }
-        )
+        let feed: [CellController] = viewModel.items.map { model in
+            let adapter = ImageDataPresentationAdapter(
+                loader: { [imageLoader] in
+                    imageLoader(model.url)
+                })
+            
+            let view = FeedImageCellController(
+                viewModel: FeedImagePresenter.map(model),
+                delegate: adapter,
+                selection: { [selection] in
+                    selection(model)
+                }
+            )
+            
+            adapter.presenter = LoadResourcePresenter(
+                resourceView: WeakRefVirtualProxy(view),
+                loadingView: WeakRefVirtualProxy(view),
+                errorView: WeakRefVirtualProxy(view),
+                mapper: UIImage.tryMake
+            )
+            
+            return CellController(id: model, dataSource: view)
+        }
+        
+        let loadMore = LoadMoreCellController(callback: {
+            viewModel.loadMore?({ _ in })
+        })
+        
+        let lodMoreSection = [ CellController(id: UUID(), dataSource: loadMore)]
+        
+        controller?.display(feed, lodMoreSection)
     }
 }
 

@@ -35,10 +35,8 @@ extension ListViewController {
     }
 
     func cell(at row: Int, section: Int) -> UITableViewCell? {
-        guard numberOfRenderedImageViews() > row else {
-            return nil
-        }
-
+        guard numberOfRows(in: section) > row else { return nil }
+        
         let ds = tableView.dataSource
         let index = IndexPath(row: row, section: section)
         return ds?.tableView(tableView, cellForRowAt: index)
@@ -103,9 +101,17 @@ extension ListViewController {
         return view
     }
     
-    private var feedImageSection: Int {
-        return 0
+    func simulateLoadMoreFeedAction() {
+        guard let view = cell(at: 0, section: feedLoadMoreSection) else { return }
+        
+        let delegate = tableView.delegate
+        let index = IndexPath(row: 0, section: feedLoadMoreSection)
+        delegate?.tableView?(tableView, willDisplay: view, forRowAt: index)
     }
+
+    private var feedImageSection: Int { return 0 }
+    
+    private var feedLoadMoreSection: Int { return 1 }
 
     func feedImageView(at row: Int) -> FeedImageCell? {
         cell(at: row, section: feedImageSection) as? FeedImageCell
@@ -114,6 +120,10 @@ extension ListViewController {
     func numberOfRenderedImageViews() -> Int {
         tableView.numberOfSections == 0
             ? 0 : tableView.numberOfRows(inSection: feedImageSection)
+    }
+    
+    func numberOfRows(in section: Int) -> Int {
+        tableView.numberOfSections > section ? tableView.numberOfRows(inSection: section) : 0
     }
 
     func renderedFeedImageData(at index: Int) -> Data? {
