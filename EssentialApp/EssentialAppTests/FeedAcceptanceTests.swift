@@ -93,8 +93,9 @@ class FeedAcceptanceTests: XCTestCase {
         feed.simulateTapOnFeedImage(at: 0)
         RunLoop.current.run(until: Date())
         
-        let nav = feed.navigationController
-        return nav?.topViewController as! ListViewController
+        let comments = feed.navigationController?.topViewController as! ListViewController
+        comments.simulateViewAppearance()
+        return comments
     }
     
     private func response(for url: URL) -> (Data, HTTPURLResponse) {
