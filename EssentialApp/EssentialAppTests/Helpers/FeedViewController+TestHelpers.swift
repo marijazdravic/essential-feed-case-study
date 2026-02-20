@@ -13,27 +13,27 @@ extension ListViewController {
     var isShowingLoadingIndicator: Bool {
         return refreshControl?.isRefreshing == true
     }
-
+    
     func simulateUserInitiatedReload() {
         refreshControl?.simulatePullToRefresh()
     }
-
+    
     func simulateViewAppearance() {
         if !isViewLoaded {
             loadViewIfNeeded()
-
+            
             prepareForFirstAppearance()
         }
-
+        
         beginAppearanceTransition(true, animated: false)
         endAppearanceTransition()
     }
-
+    
     private func prepareForFirstAppearance() {
         setSmallFrameToPreventRenderingCells()
         replaceRefreshControlWithFakeForiOS17Support()
     }
-
+    
     func cell(at row: Int, section: Int) -> UITableViewCell? {
         guard numberOfRows(in: section) > row else { return nil }
         
@@ -41,19 +41,19 @@ extension ListViewController {
         let index = IndexPath(row: row, section: section)
         return ds?.tableView(tableView, cellForRowAt: index)
     }
-
+    
     func simulateErrorViewTapped() {
         errorView.simulateTap()
     }
-
+    
     var errorMessage: String? {
         return errorView.message
     }
-
+    
     private func setSmallFrameToPreventRenderingCells() {
         tableView.frame = CGRect(x: 0, y: 0, width: 390, height: 1)
     }
-
+    
 }
 
 extension ListViewController {
@@ -63,22 +63,22 @@ extension ListViewController {
         let index = IndexPath(row: row, section: feedImageSection)
         ds?.tableView?(tableView, cancelPrefetchingForRowsAt: [index])
     }
-
+    
     func simulateFeedImageViewNearVisible(at row: Int) {
         let ds = tableView.prefetchDataSource
         let index = IndexPath(row: row, section: feedImageSection)
         ds?.tableView(tableView, prefetchRowsAt: [index])
     }
-
+    
     @discardableResult
     func simulateFeedImageViewIsVisible(at index: Int) -> FeedImageCell? {
         return feedImageView(at: index)
     }
-
+    
     @discardableResult
     func simulateFeedImageViewNotVisible(at row: Int) -> FeedImageCell? {
         let view = simulateFeedImageViewIsVisible(at: row)
-
+        
         let delegate = tableView.delegate
         let index = IndexPath(row: row, section: feedImageSection)
         delegate?.tableView?(
@@ -86,18 +86,18 @@ extension ListViewController {
             didEndDisplaying: view!,
             forRowAt: index
         )
-
+        
         return view
     }
-
+    
     @discardableResult
     func simulateFeedImageBecomingVisibleAgain(at row: Int) -> FeedImageCell? {
         let view = simulateFeedImageViewNotVisible(at: row)
-
+        
         let delegate = tableView.delegate
         let index = IndexPath(row: row, section: feedImageSection)
         delegate?.tableView?(tableView, willDisplay: view!, forRowAt: index)
-
+        
         return view
     }
     
@@ -114,26 +114,26 @@ extension ListViewController {
     }
     
     private func loadMoreFeedCell() -> LoadMoreCell? {
-       cell(at: 0, section: feedLoadMoreSection) as? LoadMoreCell
+        cell(at: 0, section: feedLoadMoreSection) as? LoadMoreCell
     }
-
+    
     private var feedImageSection: Int { return 0 }
     
     private var feedLoadMoreSection: Int { return 1 }
-
+    
     func feedImageView(at row: Int) -> FeedImageCell? {
         cell(at: row, section: feedImageSection) as? FeedImageCell
     }
     
     func numberOfRenderedImageViews() -> Int {
         tableView.numberOfSections == 0
-            ? 0 : tableView.numberOfRows(inSection: feedImageSection)
+        ? 0 : tableView.numberOfRows(inSection: feedImageSection)
     }
     
     func numberOfRows(in section: Int) -> Int {
         tableView.numberOfSections > section ? tableView.numberOfRows(inSection: section) : 0
     }
-
+    
     func renderedFeedImageData(at index: Int) -> Data? {
         simulateFeedImageViewIsVisible(at: index)?.renderedImage
     }
@@ -174,7 +174,7 @@ extension ListViewController {
 extension ListViewController {
     func replaceRefreshControlWithFakeForiOS17Support() {
         let fake = FakeRefreshControl()
-
+        
         refreshControl?.allTargets.forEach { target in
             refreshControl?
                 .actions(forTarget: target, forControlEvent: .valueChanged)?
@@ -186,7 +186,7 @@ extension ListViewController {
                     )
                 }
         }
-
+        
         refreshControl = fake
     }
 }
