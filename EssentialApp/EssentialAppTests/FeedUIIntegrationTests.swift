@@ -38,14 +38,14 @@ class FeedUIIntegrationTests: XCTestCase {
     func test_loadFeedActions_runsAutomaticallyOnlyOnFirstAppearance() {
         let (sut, loader) = makeSUT()
         XCTAssertEqual(loader.loadFeedCallCount, 0, "Expected no loading requests before view appears")
-
+        
         sut.simulateViewAppearance()
         XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected a loading request once view appears")
-
+        
         sut.simulateViewAppearance()
         XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected no loading request the second time view appears")
     }
-
+    
     func test_loadMoreActions_requestMoreFeedFromLoader() {
         let (sut, loader) = makeSUT()
         sut.simulateViewAppearance()
