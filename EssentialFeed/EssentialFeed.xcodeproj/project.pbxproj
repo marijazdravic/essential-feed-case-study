@@ -81,7 +81,6 @@
 		E37E8E682F47A2050016202A /* FeedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37E8E612F47A2050016202A /* FeedImageViewModel.swift */; };
 		E37E8E692F47A2050016202A /* FeedLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37E8E622F47A2050016202A /* FeedLoadingViewModel.swift */; };
 		E37E8E6A2F47A2050016202A /* FeedPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37E8E632F47A2050016202A /* FeedPresenter.swift */; };
-		E37E8E6B2F47A2050016202A /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37E8E642F47A2050016202A /* FeedViewModel.swift */; };
 		E37E8E6C2F47A2050016202A /* Feed.strings in Resources */ = {isa = PBXBuildFile; fileRef = E37E8E5E2F47A2050016202A /* Feed.strings */; };
 		E37E8E6F2F47A2090016202A /* ImageComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37E8E6D2F47A2090016202A /* ImageComment.swift */; };
 		E37E8E732F47A20C0016202A /* ImageCommentsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37E8E702F47A20C0016202A /* ImageCommentsEndpoint.swift */; };
@@ -255,7 +254,6 @@
 		E37E8E612F47A2050016202A /* FeedImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageViewModel.swift; sourceTree = "<group>"; };
 		E37E8E622F47A2050016202A /* FeedLoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoadingViewModel.swift; sourceTree = "<group>"; };
 		E37E8E632F47A2050016202A /* FeedPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPresenter.swift; sourceTree = "<group>"; };
-		E37E8E642F47A2050016202A /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		E37E8E6D2F47A2090016202A /* ImageComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageComment.swift; sourceTree = "<group>"; };
 		E37E8E702F47A20C0016202A /* ImageCommentsEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCommentsEndpoint.swift; sourceTree = "<group>"; };
 		E37E8E712F47A20C0016202A /* ImageCommentsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCommentsMapper.swift; sourceTree = "<group>"; };
@@ -742,7 +740,6 @@
 				E37E8E612F47A2050016202A /* FeedImageViewModel.swift */,
 				E37E8E622F47A2050016202A /* FeedLoadingViewModel.swift */,
 				E37E8E632F47A2050016202A /* FeedPresenter.swift */,
-				E37E8E642F47A2050016202A /* FeedViewModel.swift */,
 			);
 			path = FeedPresentation;
 			sourceTree = "<group>";
@@ -1244,7 +1241,6 @@
 				E37E8E682F47A2050016202A /* FeedImageViewModel.swift in Sources */,
 				E37E8E692F47A2050016202A /* FeedLoadingViewModel.swift in Sources */,
 				E37E8E6A2F47A2050016202A /* FeedPresenter.swift in Sources */,
-				E37E8E6B2F47A2050016202A /* FeedViewModel.swift in Sources */,
 				E37E8E6F2F47A2090016202A /* ImageComment.swift in Sources */,
 				E3BE99712ED4C72200A9DCB5 /* FeedCache.swift in Sources */,
 				E37E8E8D2F47A2170016202A /* LoadResourcePresenter.swift in Sources */,
