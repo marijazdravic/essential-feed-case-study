@@ -108,6 +108,14 @@ extension ListViewController {
         let index = IndexPath(row: 0, section: feedLoadMoreSection)
         delegate?.tableView?(tableView, willDisplay: view, forRowAt: index)
     }
+    
+    var isShowingLoadMoreFeedIndicator: Bool {
+        loadMoreFeedCell()?.isLoading == true
+    }
+    
+    private func loadMoreFeedCell() -> LoadMoreCell? {
+       cell(at: 0, section: feedLoadMoreSection) as? LoadMoreCell
+    }
 
     private var feedImageSection: Int { return 0 }
     
@@ -127,7 +135,7 @@ extension ListViewController {
     }
 
     func renderedFeedImageData(at index: Int) -> Data? {
-        return simulateFeedImageViewIsVisible(at: index)?.renderedImage
+        simulateFeedImageViewIsVisible(at: index)?.renderedImage
     }
     
     func simulateTapOnFeedImage(at row: Int) {
@@ -139,28 +147,28 @@ extension ListViewController {
 
 extension ListViewController {
     private var commentsSection: Int { 0 }
-
+    
     func numberOfRenderedComments() -> Int {
         tableView.numberOfSections == 0
-            ? 0 : tableView.numberOfRows(inSection: commentsSection)
+        ? 0 : tableView.numberOfRows(inSection: commentsSection)
     }
-
+    
     func commentMessage(at index: Int) -> String? {
         commentImageView(at: index)?.messageLabel.text
     }
-
+    
     func commentUsername(at index: Int) -> String? {
         commentImageView(at: index)?.userNameLabel.text
     }
-
+    
     func commentDate(at index: Int) -> String? {
         commentImageView(at: index)?.dateLabel.text
     }
-
+    
     func commentImageView(at row: Int) -> ImageCommentCell? {
         cell(at: row, section: commentsSection) as? ImageCommentCell
     }
-
+    
 }
 
 extension ListViewController {
