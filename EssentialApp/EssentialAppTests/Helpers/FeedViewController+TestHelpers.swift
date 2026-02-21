@@ -126,6 +126,10 @@ extension ListViewController {
         cell(at: 0, section: feedLoadMoreSection) as? LoadMoreCell
     }
     
+    var canLoadMoreFeed: Bool {
+        loadMoreFeedCell() != nil
+    }
+    
     private var feedImageSection: Int { return 0 }
     
     private var feedLoadMoreSection: Int { return 1 }
