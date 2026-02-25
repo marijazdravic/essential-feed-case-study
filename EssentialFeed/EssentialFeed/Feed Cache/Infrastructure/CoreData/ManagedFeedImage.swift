@@ -16,6 +16,12 @@ final class ManagedFeedImage: NSManagedObject {
     @NSManaged var url: URL
     @NSManaged var data: Data?
     @NSManaged var cache: ManagedCache
+}
+    
+extension ManagedFeedImage {
+    static func data(with url: URL, in context: NSManagedObjectContext) throws -> Data? {
+        return try first(with: url, in: context)?.data
+    }
     
     static func first(with url: URL, in context: NSManagedObjectContext) throws -> ManagedFeedImage? {
         let request = NSFetchRequest<ManagedFeedImage>(entityName: entity().name!)
@@ -35,9 +41,7 @@ final class ManagedFeedImage: NSManagedObject {
             return managed
         })
     }
-}
-
-extension ManagedFeedImage {
+    
     var local: LocalFeedImage {
         return LocalFeedImage(id: id, description: imageDescription, location: location, url: url)
     }
