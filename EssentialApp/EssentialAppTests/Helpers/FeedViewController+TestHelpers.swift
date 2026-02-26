@@ -112,6 +112,21 @@ extension ListViewController {
         delegate?.tableView?(tableView, willDisplay: view, forRowAt: index)
     }
     
+    func simulateScrollingOnLoadMore() {
+        class MockTableView: UITableView {
+            override var isDragging: Bool { true }
+        }
+        
+        guard let cell = loadMoreFeedCell() else { return }
+        
+        let mockTable = MockTableView()
+        let delegate = tableView.delegate
+        let index = IndexPath(row: 0, section: feedLoadMoreSection)
+        delegate?.tableView?(mockTable, willDisplay: cell, forRowAt: index)
+        
+        mockTable.contentOffset = CGPoint(x: 0, y: tableView.contentOffset.y + 1)
+    }
+    
     func simulateTapOnLoadMoreFeedError() {
         let delegate = tableView.delegate
         let index = IndexPath(row: 0, section: feedLoadMoreSection)

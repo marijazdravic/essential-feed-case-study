@@ -457,6 +457,20 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.loadMoreFeedErrorMessage, nil)
     }
     
+    func test_scroll_requestsLoadMoreAutomaticallyAfterError() {
+        let (sut, loader) = makeSUT()
+        sut.simulateViewAppearance()
+        loader.completeFeedLoading()
+        
+        sut.simulateLoadMoreFeedAction()
+        XCTAssertEqual(loader.loadMoreCallCount, 1)
+        
+        loader.completeLoadMoreWithError()
+        
+        sut.simulateScrollingOnLoadMore()
+        XCTAssertEqual(loader.loadMoreCallCount, 2, "Expected request when user drags after error")
+    }
+    
     func test_tapOnErrorView_hidesErrorMessageOnError() {
         let (sut, loader) = makeSUT()
         
