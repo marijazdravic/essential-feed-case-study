@@ -33,6 +33,25 @@ final class FeedSnapshotTest: XCTestCase {
         assert(snapshot: sut.snapshot(for: .iPhone(style: .dark, contentSize: .extraExtraExtraLarge)), named: "FEED_WITH_FAILED_IMAGE_LOADING_extraExtraExtraLargedark")
     }
     
+    func test_feedWithLoadMoreIndicator() {
+        let sut = makeSUT()
+        
+        sut.display(feedWithLoadMoreIndicator())
+        
+        assert(snapshot: sut.snapshot(for: .iPhone(style: .light)), named: "FEED_WITH_LOAD_MORE_INDICATOR_light")
+        assert(snapshot: sut.snapshot(for: .iPhone(style: .dark)), named: "FEED_WITH_LOAD_MORE_INDICATOR_dark")
+    }
+    
+    func test_feedWithLoadMoreError() {
+        let sut = makeSUT()
+        
+        sut.display(feedWithLoadMoreError())
+        
+        assert(snapshot: sut.snapshot(for: .iPhone(style: .light)), named: "FEED_WITH_LOAD_MORE_ERROR_light")
+        assert(snapshot: sut.snapshot(for: .iPhone(style: .dark)), named: "FEED_WITH_LOAD_MORE_ERROR_dark")
+        assert(snapshot: sut.snapshot(for: .iPhone(style: .light, contentSize: .extraExtraExtraLarge)), named: "FEED_WITH_LOAD_MORE_ERROR_extraExtraExtraLargelight")
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT() -> ListViewController {
@@ -72,6 +91,46 @@ final class FeedSnapshotTest: XCTestCase {
             )
         ]
     }
+    
+    private func feedWithLoadMore() -> [ImageStub] {
+        return [
+            ImageStub(
+                description: nil,
+                location: "Cannon Street, London",
+                image: nil
+            ),
+            ImageStub(
+                description: nil,
+                location: "Brighton Seafront",
+                image: nil
+            )
+        ]
+    }
+    
+    private func feedWithLoadMoreIndicator() -> [CellController] {
+        let loadMore = LoadMoreCellController(callback: {})
+        loadMore.display(ResourceLoadingViewModel(isLoading: true))
+       
+        return feedWith(loadMore: loadMore)
+    }
+    
+    private func feedWithLoadMoreError() -> [CellController] {
+        let loadMore = LoadMoreCellController(callback: {})
+        loadMore.display(ResourceErrorViewModel(message: "This is a multiline\nerror message"))
+        
+        return feedWith(loadMore: loadMore)
+    }
+    
+    private func feedWith(loadMore: LoadMoreCellController) -> [CellController] {
+        let stub = feedWithContent().last!
+        let cellController = FeedImageCellController(viewModel: stub.viewModel, delegate: stub, selection: {})
+        stub.controller = cellController
+        
+        return [ CellController(id: UUID(), dataSource: cellController),
+                 CellController(id: UUID(), dataSource: loadMore)
+        ]
+    }
+    
     private func makeSnapshotURL(named name: String, file: StaticString) -> URL {
         return URL(fileURLWithPath: String(describing: file))
             .deletingLastPathComponent()
