@@ -54,6 +54,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E36545152F5A38B4007D529B /* Exceptions for "EssentialAppTests" folder in "EssentialAppTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Helpers/.swift,
+			);
+			target = E3816B9E2ED0E439008667F1 /* EssentialAppTests */;
+		};
 		E39620BA2ED0B4F100A977D9 /* Exceptions for "EssentialApp" folder in "EssentialApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -63,9 +70,23 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		E36545162F5A38B4007D529B /* Exceptions for "EssentialAppTests" folder in "Compile Sources" phase from "EssentialAppTests" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = E3816B9B2ED0E439008667F1 /* Sources */;
+			membershipExceptions = (
+				Helpers/.swift,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E3816BA02ED0E439008667F1 /* EssentialAppTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E36545152F5A38B4007D529B /* Exceptions for "EssentialAppTests" folder in "EssentialAppTests" target */,
+				E36545162F5A38B4007D529B /* Exceptions for "EssentialAppTests" folder in "Compile Sources" phase from "EssentialAppTests" target */,
+			);
 			path = EssentialAppTests;
 			sourceTree = "<group>";
 		};
