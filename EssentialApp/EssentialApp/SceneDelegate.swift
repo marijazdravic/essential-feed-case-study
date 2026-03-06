@@ -14,11 +14,11 @@ import Combine
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
-    private lazy var scheduler: AnyDispatchQueueScheduler = DispatchQueue(
+    private lazy var scheduler: any Scheduler = DispatchQueue(
         label: "com.essentialdeveloper.infra.queue",
         qos: .userInitiated,
         attributes: .concurrent
-    ).eraseToAnyScheduler()
+    )
     
     private lazy var httpClient: HTTPClient = {
         URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
@@ -52,7 +52,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             selection: showComments))
     
     
-    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore, scheduler: AnyDispatchQueueScheduler) {
+    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore, scheduler: some Scheduler) {
         self.init()
         self.scheduler = scheduler
         self.httpClient = httpClient
@@ -124,16 +124,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    func makeLocalImageLoaderWithRemoteFallback(url: URL) -> FeedImageDataLoader.Publisher {
+    private func makeLocalImageLoaderWithRemoteFallback(url: URL) -> FeedImageDataLoader.Publisher {
         let localImageLoader = LocalFeedImageDataLoader(store: store)
         
         return localImageLoader
             .loadImageDataPublisher(from: url)
-            .fallback (to: { [httpClient] in
-                httpClient
+            .fallback(to: { [httpClient, scheduler] in
+                let publisher = httpClient
                     .getPublisher(url: url)
                     .tryMap(FeedImageDataMapper.map)
                     .caching(to: localImageLoader, using: url)
+                    .subscribe(onSome: scheduler)
+                
+                return publisher
             })
+            .subscribe(onSome: scheduler)
     }
 }
