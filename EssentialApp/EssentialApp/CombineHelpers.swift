@@ -55,14 +55,13 @@ public extension FeedImageDataLoader {
     typealias Publisher = AnyPublisher<Data, Error>
     
     func loadImageDataPublisher(from url: URL) -> Publisher {
-        var task: FeedImageDataLoaderTask?
-        
         return Deferred {
             Future { completion in
-                task = self.loadImageData(from: url, completion: completion)
+                completion(Result {
+                    try loadImageData(from: url)
+                })
             }
         }
-        .handleEvents(receiveCancel: { task?.cancel() })
         .eraseToAnyPublisher()
     }
 }
@@ -72,7 +71,9 @@ public extension LocalFeedLoader {
     
     func loadPublisher() -> Publisher {
         Deferred {
-            Future(self.load)
+            Future { completion in
+                completion(Result{ try self.load() })
+            }
         }
         .eraseToAnyPublisher()
     }
@@ -105,23 +106,27 @@ extension Publisher where Output == Data {
 
 private extension FeedImageDataCache {
     func saveIgnoringResult(_ data: Data, for url: URL) {
-        save(data, for: url) { _ in }
+        try? save(data, for: url) 
     }
 }
 
 private extension FeedCache {
     func saveIgnoringResult(_ feed: [FeedImage]) {
-        save(feed) { _ in }
+        try? save(feed)
     }
     
     func saveIgnoringResult(_ page: Paginated<FeedImage>) {
-        save(page.items) { _ in }
+        try? save(page.items)
     }
 }
 
 extension Publisher {
     func dispatchOnMainThread() -> AnyPublisher<Output, Failure> {
         receive(on: DispatchQueue.immediateWhenOnMainThreadScheduler).eraseToAnyPublisher()
+    }
+    
+    func receive(onSome scheduler: some Scheduler) -> AnyPublisher<Output, Failure> {
+        receive(on: scheduler).eraseToAnyPublisher()
     }
 }
 

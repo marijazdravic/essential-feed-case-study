@@ -222,18 +222,18 @@ class FeedUIIntegrationTests: XCTestCase {
         sut.simulateViewAppearance()
         loader.completeFeedLoading(with: [image0, image1])
         
-        XCTAssertEqual(loader.canceledImageURLs, [], "Expected no image URL requested until view becomes visible")
+        XCTAssertEqual(loader.cancelledImageURLs, [], "Expected no image URL requested until view becomes visible")
         
         sut.simulateFeedImageViewNotVisible(at: 0)
         XCTAssertEqual(
-            loader.canceledImageURLs,
+            loader.cancelledImageURLs,
             [image0.url],
             "Expect first Image URL request once first view becomes visible"
         )
         
         sut.simulateFeedImageViewNotVisible(at: 1)
         XCTAssertEqual(
-            loader.canceledImageURLs,
+            loader.cancelledImageURLs,
             [image0.url, image1.url],
             "Expect second Image URL request once second view also becomes visible"
         )
@@ -363,13 +363,13 @@ class FeedUIIntegrationTests: XCTestCase {
         
         sut.simulateViewAppearance()
         loader.completeFeedLoading(with: [image0, image1])
-        XCTAssertEqual(loader.canceledImageURLs, [], "Expected no cancelled image URL requests until image is not near visible")
+        XCTAssertEqual(loader.cancelledImageURLs, [], "Expected no cancelled image URL requests until image is not near visible")
         
         sut.simulateFeedImageViewNotNearVisible(at: 0)
-        XCTAssertEqual(loader.canceledImageURLs, [image0.url], "Expected first cancelled image URL request once first image is not near visible anymore")
+        XCTAssertEqual(loader.cancelledImageURLs, [image0.url], "Expected first cancelled image URL request once first image is not near visible anymore")
         
         sut.simulateFeedImageViewNotNearVisible(at: 1)
-        XCTAssertEqual(loader.canceledImageURLs, [image0.url, image1.url], "Expected second cancelled image URL request once second image is not near visible anymore")
+        XCTAssertEqual(loader.cancelledImageURLs, [image0.url, image1.url], "Expected second cancelled image URL request once second image is not near visible anymore")
     }
     
     func test_feedImageView_doesNotRenderLoadedImageWhenNotVisibleAnymore() {
