@@ -124,6 +124,10 @@ extension Publisher {
     func dispatchOnMainThread() -> AnyPublisher<Output, Failure> {
         receive(on: DispatchQueue.immediateWhenOnMainThreadScheduler).eraseToAnyPublisher()
     }
+    
+    func receive(onSome scheduler: some Scheduler) -> AnyPublisher<Output, Failure> {
+        receive(on: scheduler).eraseToAnyPublisher()
+    }
 }
 
 extension DispatchQueue {
