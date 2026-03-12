@@ -56,11 +56,11 @@ final class CoreDataFeedImageDataStoreTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
     }
-    private func notFound() -> FeedImageDataStore.RetrievalResult {
+    private func notFound() -> Result<Data?, Error> {
         return .success(.none)
     }
     
-    private func found(_ data: Data) -> FeedImageDataStore.RetrievalResult {
+    private func found(_ data: Data) -> Result<Data?, Error> {
         return .success(data)
     }
     
