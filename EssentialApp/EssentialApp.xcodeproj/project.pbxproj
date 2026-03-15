@@ -58,8 +58,16 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				InMemoryFeedStore.swift,
 			);
 			target = E39620A72ED0B4EE00A977D9 /* EssentialApp */;
+		};
+		E3E7FB6F2F672983006BB437 /* Exceptions for "EssentialApp" folder in "EssentialAppTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				InMemoryFeedStore.swift,
+			);
+			target = E3816B9E2ED0E439008667F1 /* EssentialAppTests */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -73,6 +81,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				E39620BA2ED0B4F100A977D9 /* Exceptions for "EssentialApp" folder in "EssentialApp" target */,
+				E3E7FB6F2F672983006BB437 /* Exceptions for "EssentialApp" folder in "EssentialAppTests" target */,
 			);
 			path = EssentialApp;
 			sourceTree = "<group>";
