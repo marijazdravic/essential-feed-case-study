@@ -39,7 +39,7 @@ class FeedAcceptanceTests: XCTestCase {
     }
     
     func test_onLaunch_displaysCachedRemoteFeedWhenCustomerHasNoConnectivity() throws {
-        let sharedStore = InMemoryFeedStore.empty
+        let sharedStore = try CoreDataFeedStore.empty
         
         let onlineFeed = try launch(httpClient: .online(response), store: sharedStore)
         onlineFeed.simulateFeedImageViewIsVisible(at: 0)
@@ -61,20 +61,20 @@ class FeedAcceptanceTests: XCTestCase {
         XCTAssertEqual(feed.numberOfRenderedImageViews(), 0)
     }
     
-    func test_onEnteringBackground_deletesExpiredFeedCache() {
-        let store = InMemoryFeedStore.withExpiredFeedCache
+    func test_onEnteringBackground_deletesExpiredFeedCache() throws {
+        let store = try CoreDataFeedStore.withExpiredFeedCache
         
         enterBackground(with: store)
         
-        XCTAssertNil(store.feedCache, "Expected to delete expired cache")
+        XCTAssertNil(try store.retrieve(), "Expected to delete expired cache")
     }
     
-    func test_onEnteringBackground_keepsNonExpiredFeedCache() {
-        let store = InMemoryFeedStore.withNonExpiredFeedCache
+    func test_onEnteringBackground_keepsNonExpiredFeedCache() throws {
+        let store = try CoreDataFeedStore.withNonExpiredFeedCache
         
         enterBackground(with: store)
         
-        XCTAssertNotNil(store.feedCache, "Expected to keep non-expired cache")
+        XCTAssertNotNil(try store.retrieve(), "Expected to keep non-expired cache")
     }
     
     func test_onFeedImageSelection_displaysComments() throws {
@@ -88,9 +88,9 @@ class FeedAcceptanceTests: XCTestCase {
     
     private func launch(
         httpClient: HTTPClientStub = .offline,
-        store: InMemoryFeedStore = .empty
+        store: CoreDataFeedStore
     ) throws -> ListViewController {
-        let sut = SceneDelegate(httpClient: httpClient, store: store, scheduler: .immediateOnMainThread)
+        let sut = SceneDelegate(httpClient: httpClient, store: store)
         let mainScene = try XCTUnwrap(UIApplication.shared.connectedScenes.first as? UIWindowScene)
         sut.window = UIWindow(windowScene: mainScene)
         sut.configureWindow()
@@ -103,8 +103,8 @@ class FeedAcceptanceTests: XCTestCase {
         return feedVC
     }
     
-    private func enterBackground(with store: InMemoryFeedStore) {
-        let sut = SceneDelegate(httpClient: HTTPClientStub.offline, store: store, scheduler: .immediateOnMainThread)
+    private func enterBackground(with store: CoreDataFeedStore) {
+        let sut = SceneDelegate(httpClient: HTTPClientStub.offline, store: store)
         sut.sceneWillResignActive(UIApplication.shared.connectedScenes.first!)
     }
     
@@ -183,5 +183,29 @@ class FeedAcceptanceTests: XCTestCase {
     
     private func makeCommentMessage() -> String {
         "a message"
+    }
+}
+
+extension CoreDataFeedStore {
+    static var empty: CoreDataFeedStore {
+        get throws {
+            try CoreDataFeedStore(storeURL: URL(fileURLWithPath: "/dev/null"), contextQueue: .main)
+        }
+    }
+    
+    static var withExpiredFeedCache: CoreDataFeedStore {
+        get throws {
+            let store = try CoreDataFeedStore.empty
+            try store.insert([], timestamp: .distantPast)
+            return store
+        }
+    }
+    
+    static var withNonExpiredFeedCache: CoreDataFeedStore {
+        get throws {
+            let store = try CoreDataFeedStore.empty
+            try store.insert([], timestamp: Date())
+            return store
+        }
     }
 }

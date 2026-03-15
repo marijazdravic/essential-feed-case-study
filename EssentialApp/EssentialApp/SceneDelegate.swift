@@ -14,11 +14,17 @@ import Combine
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
-    private lazy var scheduler: AnyDispatchQueueScheduler = DispatchQueue(
-        label: "com.essentialdeveloper.infra.queue",
-        qos: .userInitiated,
-        attributes: .concurrent
-    ).eraseToAnyScheduler()
+    private lazy var scheduler: AnyDispatchQueueScheduler = {
+        if let store = store as? CoreDataFeedStore {
+            return .scheduler(for: store)
+        }
+        
+        return DispatchQueue(
+            label: "com.essentialdeveloper.infra.queue",
+            qos: .userInitiated,
+            attributes: .concurrent
+        ).eraseToAnyScheduler()
+    }()
     
     private lazy var httpClient: HTTPClient = {
         URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
@@ -51,9 +57,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             imageLoader: makeLocalImageLoaderWithRemoteFallback,
             selection: showComments))
     
-    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore, scheduler: AnyDispatchQueueScheduler) {
+    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore) {
         self.init()
-        self.scheduler = scheduler
         self.httpClient = httpClient
         self.store = store
     }
@@ -143,7 +148,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 httpClient
                     .getPublisher(url: url)
                     .tryMap(FeedImageDataMapper.map)
-                    .receive(onSome: scheduler)
+                    .receive(on: scheduler)
                     .caching(to: localImageLoader, using: url)
                     .subscribe(on: scheduler)
                     .eraseToAnyPublisher()
