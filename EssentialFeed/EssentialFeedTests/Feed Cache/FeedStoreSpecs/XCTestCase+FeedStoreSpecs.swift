@@ -143,7 +143,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
             XCTAssertEqual(retrieved.timestamp, expected.timestamp, file: file, line: line)
             
         default:
-            XCTFail("Expected to retrieve \(expectedResult), got \(retrievedResult) instead", file: file, line: line)
+            XCTFail("Expected to retrieve \(String(describing: expectedResult)), got \(retrievedResult) instead", file: file, line: line)
         }
     }
 }
