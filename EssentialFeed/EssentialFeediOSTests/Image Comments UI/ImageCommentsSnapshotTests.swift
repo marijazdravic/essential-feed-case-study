@@ -9,6 +9,7 @@ import XCTest
 import EssentialFeediOS
 import EssentialFeed
 
+@MainActor
 class ImageCommentsSnapshotTests: XCTestCase {
     
     func test_listWithComments() {

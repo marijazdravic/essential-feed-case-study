@@ -11,6 +11,7 @@ import UIKit
 import EssentialFeediOS
 import EssentialApp
 
+@MainActor
 class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedView_hasTitle() {

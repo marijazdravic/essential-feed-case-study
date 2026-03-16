@@ -9,6 +9,7 @@ import Foundation
 import XCTest
 import EssentialFeed
 
+@MainActor
 class ImageCommentsMapperTests: XCTestCase {
     
     func test_map_throwsErrorOnNon2xxHTTPResponse() throws {

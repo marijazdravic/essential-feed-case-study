@@ -9,6 +9,7 @@ import Foundation
 import XCTest
 import EssentialFeed
 
+@MainActor
 class FeedItemsMapperTests: XCTestCase {
     
     func test_map_deliversErrorOnNon200HTTPResponse() throws {

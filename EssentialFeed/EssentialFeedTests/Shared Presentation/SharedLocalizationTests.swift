@@ -7,8 +7,10 @@
 import XCTest
 import EssentialFeed
 
+@MainActor
 class SharedLocalizationTests: XCTestCase {
-    class SharedLocalizationTests: XCTestCase {
+    @MainActor
+class SharedLocalizationTests: XCTestCase {
         func test_localizedStrings_haveKeysAndValuesForAllSupportedLocalizations() {
             let table = "Shared"
             let bundle = Bundle(for: LoadResourcePresenter<Any, DummyView>.self)

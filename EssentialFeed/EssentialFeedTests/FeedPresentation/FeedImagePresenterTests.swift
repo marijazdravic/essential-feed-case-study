@@ -9,6 +9,7 @@ import XCTest
 import EssentialFeed
 
 
+@MainActor
 class FeedImagePresenterTests: XCTestCase {
     
     func test_map_createsViewModel() {

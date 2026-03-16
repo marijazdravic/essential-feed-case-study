@@ -9,6 +9,7 @@ import Foundation
 import XCTest
 import EssentialFeed
 
+@MainActor
 class InMemoryFeedImageDataStoreTests: XCTestCase, FeedImageDataStoreSpecs {
     
     func test_retrieveImageData_deliversNotFoundWhenEmpty() throws {
