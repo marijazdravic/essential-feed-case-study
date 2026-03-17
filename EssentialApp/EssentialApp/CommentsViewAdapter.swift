@@ -9,6 +9,7 @@ import Foundation
 import EssentialFeed
 import EssentialFeediOS
 
+@MainActor
 final class CommentsViewAdapter: ResourceView {
     private weak var controller: ListViewController?
 

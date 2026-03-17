@@ -533,47 +533,6 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.loadMoreCallCount, 2)
     }
     
-    func test_loadFeedCompletion_dispatchesFromBackgroundToMainThread() {
-        let (sut, loader) = makeSUT()
-        sut.simulateViewAppearance()
-        
-        let exp = expectation(description: "Wait for background queue")
-        DispatchQueue.global().async {
-            loader.completeFeedLoading(at: 0)
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
-    }
-    
-    func test_loadMoreCompletion_dispatchesFromBackgroundToMainThread() {
-        let (sut, loader) = makeSUT()
-        sut.simulateViewAppearance()
-        loader.completeFeedLoading(at: 0)
-        sut.simulateLoadMoreFeedAction()
-        
-        let exp = expectation(description: "Wait for background queue")
-        DispatchQueue.global().async {
-            loader.completeLoadMore()
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
-    }
-    
-    func test_loadImageDataCompletion_dispatchesFromBackgroundToMainThread() {
-        let (sut, loader) = makeSUT()
-        
-        sut.simulateViewAppearance()
-        loader.completeFeedLoading(with: [makeImage()])
-        _ = sut.simulateFeedImageViewIsVisible(at: 0)
-        
-        let exp = expectation(description: "Wait for background queue")
-        DispatchQueue.global().async {
-            loader.completeImageLoading(with: self.anyImageData(), at: 0)
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
-    }
-    
     func test_imageSelection_notifiesHandler() {
         let image0 = makeImage()
         let image1 = makeImage()
@@ -592,7 +551,7 @@ class FeedUIIntegrationTests: XCTestCase {
     
     // MARK: -Helpers
     
-    private func makeSUT(selection: @escaping (FeedImage) -> Void = { _ in }, file: StaticString = #filePath, line: UInt = #line) -> (sut: ListViewController, loader: LoaderSpy) {
+    private func makeSUT(selection: @MainActor @escaping (FeedImage) -> Void = { _ in }, file: StaticString = #filePath, line: UInt = #line) -> (sut: ListViewController, loader: LoaderSpy) {
         let loader = LoaderSpy()
         let sut = FeedUIComposer.feedComposedWith(feedLoader: loader.loadPublisher, imageLoader: loader.loadImageDataPublisher, selection: selection)
         trackForMemoryLeaks(loader, file: file, line: line)

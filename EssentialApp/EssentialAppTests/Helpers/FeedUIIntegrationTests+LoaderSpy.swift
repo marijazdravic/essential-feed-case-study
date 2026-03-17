@@ -11,6 +11,7 @@ import EssentialFeed
 import Combine
 import EssentialApp
 
+@MainActor
 class LoaderSpy {
     
     //MARK: Feed Loader
