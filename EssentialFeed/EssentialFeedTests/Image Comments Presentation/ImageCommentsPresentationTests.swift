@@ -8,6 +8,7 @@
 import XCTest
 import EssentialFeed
 
+@MainActor
 class ImageCommentsPresentationTests: XCTestCase {
     
     func test_title_isLocalized() {

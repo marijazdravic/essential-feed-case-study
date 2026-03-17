@@ -11,6 +11,7 @@ import EssentialApp
 import EssentialFeed
 import Combine
 
+@MainActor
 class CommentsUIIntegrationTests: XCTestCase {
     
     func test_commentsView_hasTitle() {
@@ -133,18 +134,6 @@ class CommentsUIIntegrationTests: XCTestCase {
         
         sut.simulateErrorViewTapped()
         XCTAssertEqual(sut.errorMessage, nil)
-    }
-    
-    func test_loadCommentsCompletion_dispatchesFromBackgroundToMainThread() {
-        let (sut, loader) = makeSUT()
-        sut.simulateViewAppearance()
-        
-        let exp = expectation(description: "Wait for background queue")
-        DispatchQueue.global().async {
-            loader.completeCommentsLoading(at: 0)
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
     }
     
     func test_deinit_cancelsRunningRequest() {

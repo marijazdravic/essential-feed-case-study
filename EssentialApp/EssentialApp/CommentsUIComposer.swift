@@ -11,6 +11,7 @@ import EssentialFeediOS
 import Foundation
 import UIKit
 
+@MainActor
 public final class CommentsUIComposer {
     private init() {}
 
