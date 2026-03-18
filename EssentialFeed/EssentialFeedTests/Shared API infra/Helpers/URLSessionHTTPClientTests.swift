@@ -17,7 +17,7 @@ class URLSessionHTTPClientTests: XCTestCase {
         URLProtocolStub.removeStub()
     }
     
-    func test_getFromURL_performsGETRequestWithURL() {
+    func test_getFromURL_performsGETRequestWithURL() async throws {
         let url = anyURL()
         let exp = expectation(description: "Wait for request")
 
@@ -27,9 +27,9 @@ class URLSessionHTTPClientTests: XCTestCase {
             exp.fulfill()
         }
 
-        _ = makeSUT().get(from: url) { _ in }
+        _ = try await makeSUT().get(from: url)
 
-        wait(for: [exp], timeout: 1.0)
+        await fulfillment(of: [exp], timeout: 1.0)
     }
     
     func test_cancelGetFromURLTask_cancelsURLRequest() async {
