@@ -33,7 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private lazy var logger = Logger(subsystem: "com.essentialdeveloper.EssentialAppCaseStudy", category: "main")
     
-    private lazy var store: FeedStore & FeedImageDataStore = {
+    private lazy var store: FeedStore & FeedImageDataStore & StoreScheduler & Sendable = {
         do {
             return try CoreDataFeedStore(
                 storeURL: NSPersistentContainer
@@ -53,10 +53,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private lazy var navigationController = UINavigationController(
         rootViewController: FeedUIComposer.feedComposedWith(
             feedLoader: makeRemoteFeedLoaderWithLocalFallback,
-            imageLoader: makeLocalImageLoaderWithRemoteFallback,
+            imageLoader: loadLocalImageLoaderWithRemoteFallback,
             selection: showComments))
     
-    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore) {
+    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore & StoreScheduler & Sendable) {
         self.init()
         self.httpClient = httpClient
         self.store = store
@@ -138,21 +138,53 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    func makeLocalImageLoaderWithRemoteFallback(url: URL) -> FeedImageDataLoader.Publisher {
-        let localImageLoader = LocalFeedImageDataLoader(store: store)
+    func loadLocalImageLoaderWithRemoteFallback(url: URL) async throws -> Data {
+        _ = LocalFeedImageDataLoader(store: store)
         
-        return localImageLoader
-            .loadImageDataPublisher(from: url)
-            .fallback (to: { [httpClient, scheduler] in
-                httpClient
-                    .getPublisher(url: url)
-                    .tryMap(FeedImageDataMapper.map)
-                    .receive(on: scheduler)
-                    .caching(to: localImageLoader, using: url)
-                    .subscribe(on: scheduler)
-                    .eraseToAnyPublisher()
-            })
-            .subscribe(on: scheduler)
-            .eraseToAnyPublisher()
+        do {
+            return try await loadLocalImage(from: url)
+        } catch {
+            return try await loadAndCacheRemoteImage(from: url)
+        }
+    }
+    
+    func loadLocalImage(from url: URL) async throws -> Data {
+        try await store.schedule { [store] in
+            let localImageLoader = LocalFeedImageDataLoader(store: store)
+            let imageData = try localImageLoader.loadImageData(from: url)
+            return imageData
+        }
+    }
+    
+    func loadAndCacheRemoteImage(from url: URL) async throws -> Data {
+        let (data, response) = try await httpClient.get(from: url)
+        let imageData = try FeedImageDataMapper.map(data, from: response)
+        await store.schedule { [store] in
+            let localImageLoader = LocalFeedImageDataLoader(store: store)
+            try? localImageLoader.save(imageData, for: url)
+        }
+        return imageData
+    }
+}
+
+protocol StoreScheduler {
+    @MainActor
+    func schedule<T>(_ action: @Sendable @escaping () throws -> T) async rethrows -> T
+}
+
+extension CoreDataFeedStore: StoreScheduler {
+    func schedule<T>(_ action: @escaping @Sendable () throws -> T) async rethrows -> T {
+        if contextQueue == .main {
+            return try action()
+        } else {
+          return try await perform(action)
+        }
+    }
+}
+
+extension InMemoryFeedStore: StoreScheduler {
+    @MainActor
+    func schedule<T>(_ action: @escaping @Sendable () throws -> T) async rethrows -> T {
+        try action()
     }
 }
