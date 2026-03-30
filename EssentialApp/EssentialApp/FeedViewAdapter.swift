@@ -12,25 +12,24 @@ import UIKit
 @MainActor
 final class FeedViewAdapter: ResourceView {
     private weak var controller: ListViewController?
-    private let imageLoader: (URL) -> FeedImageDataLoader.Publisher
+    private let imageLoader: (URL) async throws -> Data
     private let selection: (FeedImage) -> Void
     private let currentFeed: [FeedImage: CellController]
-
+    
     private typealias ImageDataPresentationAdapter =
-        LoadResourcePresentationAdapter<
-            Data, WeakRefVirtualProxy<FeedImageCellController>>
+    AsyncLoadResourcePresentationAdapter<
+        Data, WeakRefVirtualProxy<FeedImageCellController>>
     
     private typealias LoadMorePresentationAdapter =
-        LoadResourcePresentationAdapter<Paginated<FeedImage>, FeedViewAdapter>
-
-    init(currentFeed: [FeedImage: CellController] = [:], controller: ListViewController, imageLoader: @escaping (URL) ->
-         FeedImageDataLoader.Publisher, selection: @escaping (FeedImage) -> Void) {
+    LoadResourcePresentationAdapter<Paginated<FeedImage>, FeedViewAdapter>
+    
+    init(currentFeed: [FeedImage: CellController] = [:], controller: ListViewController, imageLoader: @escaping (URL) async throws -> Data, selection: @escaping (FeedImage) -> Void) {
         self.currentFeed = currentFeed
         self.controller = controller
         self.imageLoader = imageLoader
         self.selection = selection
     }
-
+    
     func display(_ viewModel: Paginated<FeedImage>) {
         guard let controller = controller else { return }
         var currentFeed = self.currentFeed
@@ -42,7 +41,7 @@ final class FeedViewAdapter: ResourceView {
             
             let adapter = ImageDataPresentationAdapter(
                 loader: { [imageLoader] in
-                    imageLoader(model.url)
+                   try await imageLoader(model.url)
                 })
             
             let view = FeedImageCellController(
@@ -91,7 +90,7 @@ final class FeedViewAdapter: ResourceView {
 
 extension UIImage {
     struct InvalidImageData: Error {}
-
+    
     static func tryMake(data: Data) throws -> UIImage {
         guard let image = UIImage(data: data) else {
             throw InvalidImageData()
