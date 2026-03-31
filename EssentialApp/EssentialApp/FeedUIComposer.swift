@@ -4,8 +4,6 @@
 //
 //  Created by Marija Zdravic on 14.07.2025..
 //
-
-import Combine
 import EssentialFeed
 import EssentialFeediOS
 import Foundation
@@ -17,10 +15,10 @@ public final class FeedUIComposer {
     private init() {}
 
     private typealias FeedPresentationAdapter =
-    LoadResourcePresentationAdapter<Paginated<FeedImage>, FeedViewAdapter>
+    AsyncLoadResourcePresentationAdapter<Paginated<FeedImage>, FeedViewAdapter>
 
     public static func feedComposedWith(
-        feedLoader:  @MainActor @escaping () -> AnyPublisher<Paginated<FeedImage>, Error>,
+        feedLoader:  @MainActor @escaping () async throws -> Paginated<FeedImage>,
         imageLoader: @MainActor @escaping (URL) async throws -> Data,
         selection: @MainActor @escaping (FeedImage) -> Void = { _ in }
     ) -> ListViewController {
