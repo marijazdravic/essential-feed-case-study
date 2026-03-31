@@ -85,7 +85,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func showComments(for image: FeedImage) {
         let url = ImageCommentsEndpoint.get(image).url(baseURL: baseURL)
-        let commentsController = CommentsUIComposer.commentsComposedWith(commentsLoader: makeRemoteCommentsLoader(url: url))
+        let commentsController = CommentsUIComposer.commentsComposedWith(commentsLoader: loadComments(url: url))
         navigationController.pushViewController(commentsController, animated: true)
     }
     
@@ -151,6 +151,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 .getPublisher(url: url)
                 .tryMap(ImageCommentsMapper.map)
                 .eraseToAnyPublisher()
+        }
+    }
+    
+    private func loadComments(url: URL) -> () async throws -> [ImageComment] {
+        return { [httpClient] in
+            let (data, response) = try await httpClient.get(from: url)
+            return try ImageCommentsMapper.map(data, from: response)
         }
     }
     

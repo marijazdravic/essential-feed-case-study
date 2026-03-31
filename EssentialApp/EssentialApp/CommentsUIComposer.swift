@@ -16,10 +16,10 @@ public final class CommentsUIComposer {
     private init() {}
 
     private typealias CommentsPresentationAdapter =
-        LoadResourcePresentationAdapter<[ImageComment], CommentsViewAdapter>
+        AsyncLoadResourcePresentationAdapter<[ImageComment], CommentsViewAdapter>
 
     public static func commentsComposedWith(
-        commentsLoader: @escaping () -> AnyPublisher<[ImageComment], Error>
+        commentsLoader: @escaping () async throws -> [ImageComment]
     ) -> ListViewController {
         let presentationAdapter = CommentsPresentationAdapter(
             loader: commentsLoader
